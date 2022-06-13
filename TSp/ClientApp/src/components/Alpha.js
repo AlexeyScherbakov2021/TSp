@@ -1,5 +1,8 @@
 ﻿import React, { Component } from 'react';
 
+
+var Alphabet =  [ "А", "Б", "В","Г","Д","Е","Ж","З","И","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Э","Ю","Я"];
+
 export class Alpha extends Component {
     static displayName = Alpha.name;
 
@@ -9,7 +12,10 @@ export class Alpha extends Component {
             paddingBottom: "2px",
             marginTop: "0px",
             background: "var(--bs-gray-100)",
-            paddingTop: "5px"
+            paddingTop: "5px",
+            position: "sticky",
+            top: "74px",
+            zIndex: "1010"
         };
 
         var alphaButtonStyle = {
@@ -22,12 +28,12 @@ export class Alpha extends Component {
 
         return (
             <div id="alpha" style={alphaStyle}>
-                <a className="border rounded border-primary" href={"#"} type="button" style={alphaButtonStyle}>
-                    <strong>А</strong>
-                </a>
-                <a className="border rounded border-primary btn-primary" href={"#"} type="button" style={alphaButtonStyle}>
-                    <strong>А</strong>
-                </a>
+                {
+                    Alphabet.map((alpha, i) => (
+                        <a className="border rounded border-primary" href={"#"} key={ i} type="button" style={alphaButtonStyle} >
+                            <strong>{alpha }</strong>
+                        </a>))
+                }
             </div>
             );
 

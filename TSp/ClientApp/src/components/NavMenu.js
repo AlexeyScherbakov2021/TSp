@@ -23,7 +23,6 @@ export class NavMenu extends Component {
 
   render () {
     return (
-      <header>
         <Navbar className="navbar-dark navbar-expand-md sticky-top bg-dark py-3" light>
                 <Container>
                     <NavbarBrand className="d-flex align-items-center" tag={Link} to="/">Телефонный справочник</NavbarBrand>
@@ -43,7 +42,6 @@ export class NavMenu extends Component {
             </Collapse>
           </Container>
         </Navbar>
-      </header>
     );
   }
 }

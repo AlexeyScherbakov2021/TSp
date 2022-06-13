@@ -11,10 +11,15 @@ export class Otdel extends Component {
             borderStyle: "none"
         };
 
+        var asideStyle = {
+            position: "fixed",
+            top: "74px"
+        };
+
 
         return (
 
-            <aside className="col-3 d-none d-md-block col-lg-4">
+            <aside className="col-3 d-none d-md-block col-lg-4" style={asideStyle}>
                 <div>
                     <h5>Весь список</h5>
                 </div>
