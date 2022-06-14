@@ -19,8 +19,20 @@ var listOtdel = [
             },
             {
                 id: 3.2,
-                name: "Участок сопровождения"
+                name: "Участок сопровождения",
+                child: [
+                    {
+                        id: 3.3,
+                        name: "Участок сопровождения 1"
+                    },
+                    {
+                        id: 3.3,
+                        name: "Участок сопровождения 2"
+                    },
+
+                ]
             },
+
         ]
     },
     {
@@ -48,7 +60,7 @@ const Otdels = ({ data }) => {
     return (
         <>
         <li className="list-group-item">
-            <a href={"#"} type="button">{name }</a>
+                <a href={"#"} type="button">{name} onClick={ this.selectOtdel }</a>
         </li>
         <ul>
         {
@@ -63,6 +75,19 @@ const Otdels = ({ data }) => {
 
 export class Otdel extends Component {
     static displayName = Otdel.name;
+
+    constructor(props) {
+        super(props);
+
+        this.selectOtdel = this.selectOtdel.bind(this);
+    }
+
+    selectOtdel(e) {
+
+    }
+
+
+
 
     render() {
 
