@@ -27,12 +27,13 @@ export class Alpha extends Component {
         };
 
         return (
-            <div id="alpha" style={alphaStyle}>
+            <div id="alpha" style={alphaStyle} >
                 {
                     Alphabet.map((alpha, i) => (
-                        <a className="border rounded border-primary" href={"#"} key={ i} type="button" style={alphaButtonStyle} >
-                            <strong>{alpha }</strong>
-                        </a>))
+                        <button id={alpha } className="border rounded border-primary" href={"#"} key={i} type="button"
+                            style={alphaButtonStyle} onClick={this.props.callBack}>
+                            <strong id={alpha}>{alpha}</strong>
+                        </button>))
                 }
             </div>
             );
