@@ -54,39 +54,14 @@ var listOtdel = [
 ]
 
 
-const Otdels = ({ data }) => {
-    const { id, name, child } = data;
-
-    return (
-        <>
-        <li className="list-group-item">
-                <a href={"#"} type="button">{name} onClick={ this.selectOtdel }</a>
-        </li>
-        <ul>
-        {
-            child &&
-                child.map((i, n) => <Otdels data={i} key={n} />)
-            }
-            </ul>
-            </>
-        );
-};
-
 
 export class Otdel extends Component {
     static displayName = Otdel.name;
 
-    constructor(props) {
-        super(props);
+    //constructor(props) {
+    //    super(props);
 
-        this.selectOtdel = this.selectOtdel.bind(this);
-    }
-
-    selectOtdel(e) {
-
-    }
-
-
+    //}
 
 
     render() {
@@ -103,27 +78,50 @@ export class Otdel extends Component {
         };
 
 
+        function funOtdels(data, k) {
+            const { name, child } = data;
+
+            return (
+                <>
+                    <li className="list-group-item">
+                        <button id={k} href={"#"} type="button">{name} </button>
+                    </li>
+                    <ul>
+                        {
+                            child &&
+                            child.map((i, n) => <>{funOtdels(i, n)}</>)
+                        }
+                    </ul>
+                </>
+            );
+        };
+
+
+
         function handleData(arr) {
 
-            // возвращаем полученный массив компонентов
-            return [...arr.map((i, n) => <Otdels data={i} key={n} />)];
+            return (
+                arr.map((data, i) => <>{funOtdels(data, i)}</>)
+            );
+
+            //return [...arr.map((i, n) => <Otdels data={i} key={n} />)];
 
         }
 
-        let showHTMLData = handleData(listOtdel);
 
         return (
 
             <aside className="col-3 d-none d-md-block col-lg-4" style={asideStyle}>
                 <div>
-                    <h5>Весь список</h5>
+                    <a id="-1" href={"#"} onClick={this.props.callBack}>Весь список</a>
                 </div>
-                <ul className="list-group border rounded overflow-auto" style={ulStyle}>
+                <ul className="list-group border rounded overflow-auto" style={ulStyle} onClick={this.props.callBack}>
                     {handleData(listOtdel)}
-
                 </ul>
             </aside>
             );
     }
 
 }
+
+

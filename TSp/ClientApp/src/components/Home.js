@@ -4,53 +4,66 @@ import { Otdel } from './Otdel'
 import { Alpha } from './Alpha'
 import { Card } from './Card'
 
-var cards = [
-    {
-        name: "Петров Петр Петрович",
-        prof: "Инженер 1 категории",
-        workPhone: 3578,
-        mobPhone: 4578,
-        email: "p.petrov@ngk-ehz.ru"
-    },
-    {
-        name: "Иванов Иван Иванович",
-        prof: "Инженер 2 категории",
-        workPhone: 3579,
-        mobPhone: 4579,
-        email: "i.ivanov@ngk-ehz.ru"
-    },
-    {
-        name: "Константинов Константин Константинович",
-        prof: "Начальник инженерного отдела",
-        workPhone: 3598,
-        mobPhone: 4574,
-        email: "k.konstantinov@ngk-ehz.ru"
-    },
-    {
-        name: "Сидоров Станислав Иванович",
-        prof: "Инженер-технолог",
-        workPhone: 3547,
-        mobPhone: 4534,
-        email: "s.sidorov@ngk-ehz.ru"
-    },
-
-]
-
-
 
 export class Home extends Component {
-  static displayName = Home.name;
+    static displayName = Home.name;
+
+
+
+    constructor(props) {
+        super(props);
+
+    this.state = {
+        curAlpha: null,
+        curOtdel: null,
+        curSearch: ""
+    };
+
+        this.clickOtdel = this.clickOtdel.bind(this);
+        this.clickAlpha = this.clickAlpha.bind(this);
+    }
+
+
+    clickOtdel(e) {
+
+        this.setState({
+            curOtdel: e.target.id,
+            curAlpha: null
+        });
+
+        console.log("select otdel " + e.target.id);
+    }
+
+    clickAlpha(e) {
+        this.setState({
+            curAlpha: e.target.id
+        });
+        console.log("select alpha " + e.target.id);
+    }
+
 
     render() {
 
+
+
       return (
           <div className="container-fluid d-flex">
-              <Otdel />
+              <Otdel callBack={this.clickOtdel } />
               <div className="col-12 offset-0 offset-md-3 col-md-9 offset-lg-4 col-lg-8">
-                  <Alpha />
-                  {cards.map((item, i) => (<Card mans={item } />))}
+                  <Alpha callBack={this.clickAlpha} />
+                  <Card selAlpha={this.state.curAlpha} selOtdel={this.state.curOtdel} search={this.state.curSearch} />
               </div>
           </div>
     );
   }
 }
+
+
+
+
+
+
+
+
+
+{/*{cards.map((item, i) => (<Card mans={item } />))}*/ }
