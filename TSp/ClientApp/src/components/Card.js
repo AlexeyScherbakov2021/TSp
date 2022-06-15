@@ -42,6 +42,10 @@ export class Card extends Component {
         this.renderListCards = this.renderListCards.bind(this)
     }
 
+    componentDidMount() {
+        this.LoadCardData();
+    }
+
 
 
     render() {
@@ -158,6 +162,14 @@ export class Card extends Component {
         );
 
     }
+
+
+    async LoadCardData() {
+        const response = await fetch('cards');
+        const data = await response.json();
+        this.setState({ forecasts: data, loading: false });
+    }
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------
