@@ -58,10 +58,18 @@ var listOtdel = [
 export class Otdel extends Component {
     static displayName = Otdel.name;
 
-    //constructor(props) {
-    //    super(props);
+    constructor(props) {
+        super(props);
 
-    //}
+        this.state = { listOtdel2: [], loading: true };
+
+    }
+
+    componentDidMount() {
+        this.LoadOtdelData();
+    }
+
+
 
 
     render() {
@@ -79,20 +87,22 @@ export class Otdel extends Component {
 
 
         function funOtdels(data, k) {
-            const { name, child } = data;
+            const { otdelName, subOtdel } = data;
 
             return (
-                <>
-                    <li className="list-group-item">
-                        <button id={k} href={"#"} type="button">{name} </button>
-                    </li>
-                    <ul>
-                        {
-                            child &&
-                            child.map((i, n) => <>{funOtdels(i, n)}</>)
-                        }
-                    </ul>
-                </>
+
+                <p>{otdelName}</p>
+            //    <>
+            //        <li className="list-group-item">
+            //            <button id={k} href={"#"} type="button">{OtdelName} </button>
+            //        </li>
+            //        <ul>
+            //            {
+            //                SubOtdel &&
+            //                SubOtdel.map((i, n) => <>{funOtdels(i, n)}</>)
+            //            }
+            //        </ul>
+            //    </>
             );
         };
 
@@ -104,9 +114,16 @@ export class Otdel extends Component {
                 arr.map((data, i) => <>{funOtdels(data, i)}</>)
             );
 
-            //return [...arr.map((i, n) => <Otdels data={i} key={n} />)];
+            //return <p>2222</p>
+
+            //return (arr.map((data) => <p>{data.otdelName}</p>));
 
         }
+
+        let contents = this.state.loading
+            ? <p><em>Loading...</em></p>
+            : handleData(this.state.listOtdel2);
+            //: this.state.listOtdel2.map((data) => <p>{data.otdelName}</p>);
 
 
         return (
@@ -116,11 +133,19 @@ export class Otdel extends Component {
                     <a id="-1" href={"#"} onClick={this.props.callBack}>Весь список</a>
                 </div>
                 <ul className="list-group border rounded overflow-auto" style={ulStyle} onClick={this.props.callBack}>
-                    {handleData(listOtdel)}
+                    {contents}
                 </ul>
             </aside>
             );
     }
+
+    async LoadOtdelData() {
+
+        const response = await fetch('otdel');
+        const data = await response.json();
+        this.setState({ listOtdel2: data, loading: false });
+    }
+
 
 }
 

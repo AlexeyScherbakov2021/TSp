@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TSp.Models;
+using TSp.Repository;
 
 namespace TSp.Controllers
 {
@@ -12,13 +13,9 @@ namespace TSp.Controllers
     public class CardsController : ControllerBase
     {
 
-
-
-
-
-        //[HttpGet]
-        //public IEnumerable<Personal> Get()
-        //{
+        [HttpGet]
+        public void Get(int otdel, string alpha, string search, int page)
+        {
             //var rng = new Random();
             //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             //{
@@ -28,7 +25,9 @@ namespace TSp.Controllers
             //    Summary = Summaries[rng.Next(Summaries.Length)]
             //})
             //.ToArray();
-        //}
+        }
+
+
 
 
     }

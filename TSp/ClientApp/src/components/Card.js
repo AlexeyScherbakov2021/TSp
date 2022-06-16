@@ -43,7 +43,7 @@ export class Card extends Component {
     }
 
     componentDidMount() {
-        this.LoadCardData();
+        this.LoadCardData(this.props.selOtdel, this.props.selAlpha, 'start', 1);
     }
 
 
@@ -53,6 +53,7 @@ export class Card extends Component {
         //return (
         //    <p>Параметр № отдела {this.props.selOtdel} Выбранная буква {this.props.selAlpha } !</p>
         //    );
+        this.LoadCardData(this.props.selOtdel, this.props.selAlpha, 'render', 1);
 
         return cardsInit.map((item, i) => <>{this.renderListCards(item, i)}</>);
     }
@@ -164,10 +165,24 @@ export class Card extends Component {
     }
 
 
-    async LoadCardData() {
-        const response = await fetch('cards');
+    async LoadCardData(selOtdel, selAlpha, search, page) {
+
+        if (selOtdel == null)
+            selOtdel = -1;
+        if (selAlpha == null)
+            selAlpha = '';
+
+        if (search == null)
+            search = '';
+
+        if (page == null)
+            page = 1;
+
+
+        //const response = await fetch('cards?otdel=' + selOtdel);
+        const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page);
         const data = await response.json();
-        this.setState({ forecasts: data, loading: false });
+        //this.setState({ forecasts: data, loading: false });
     }
 
 }
