@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TSp.Models;
+using TSp.Repository;
 
 namespace TSp
 {
@@ -32,6 +33,11 @@ namespace TSp
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddTransient<IPersonRepository, PersonRepository>();
+            services.AddTransient<IOtdelRepository, OtdelRepository>();
+            services.AddTransient<IProfRepository, ProfRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
