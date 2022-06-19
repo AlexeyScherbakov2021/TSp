@@ -42,9 +42,9 @@ export class Card extends Component {
         this.renderListCards = this.renderListCards.bind(this)
     }
 
-    componentDidMount() {
-        this.LoadCardData(this.props.selOtdel, this.props.selAlpha, 'start', 1);
-    }
+    //componentDidMount() {
+    //    this.LoadCardData(this.props.selOtdel, this.props.selAlpha, 'start', 1);
+    //}
 
 
 

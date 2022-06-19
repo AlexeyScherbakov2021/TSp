@@ -76,10 +76,10 @@ namespace TSp.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.PersonalOtdel)
-                    .WithMany(p => p.Personal)
-                    .HasForeignKey(d => d.PersonalOtdelId)
-                    .HasConstraintName("FK_Personal_Otdel");
+                //entity.HasOne(d => d.PersonalOtdel)
+                //    .WithMany(p => p.Personal)
+                //    .HasForeignKey(d => d.PersonalOtdelId)
+                //    .HasConstraintName("FK_Personal_Otdel");
 
                 entity.HasOne(d => d.PersonalProf)
                     .WithMany(p => p.Personal)

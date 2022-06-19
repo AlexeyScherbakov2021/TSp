@@ -8,7 +8,7 @@ namespace TSp.Models
         public Otdel()
         {
             SubOtdel = new HashSet<Otdel>();
-            Personal = new HashSet<Personal>();
+            //Personal = new HashSet<Personal>();
         }
 
         public int OtdelId { get; set; }
@@ -17,6 +17,6 @@ namespace TSp.Models
 
         public virtual Otdel OtdelParent { get; set; }
         public virtual ICollection<Otdel> SubOtdel { get; set; }
-        public virtual ICollection<Personal> Personal { get; set; }
+        //public virtual ICollection<Personal> Personal { get; set; }
     }
 }

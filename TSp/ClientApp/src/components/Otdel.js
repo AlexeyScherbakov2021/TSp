@@ -91,18 +91,18 @@ export class Otdel extends Component {
 
             return (
 
-                <p>{otdelName}</p>
-            //    <>
-            //        <li className="list-group-item">
-            //            <button id={k} href={"#"} type="button">{OtdelName} </button>
-            //        </li>
-            //        <ul>
-            //            {
-            //                SubOtdel &&
-            //                SubOtdel.map((i, n) => <>{funOtdels(i, n)}</>)
-            //            }
-            //        </ul>
-            //    </>
+                //<p>{otdelName}</p>
+                <>
+                    <li className="list-group-item">
+                        <button id={k} href={"#"} type="button">{otdelName} </button>
+                    </li>
+                    <ul>
+                        {
+                            subOtdel &&
+                            subOtdel.map((i, n) => <>{funOtdels(i, n)}</>)
+                        }
+                    </ul>
+                </>
             );
         };
 
