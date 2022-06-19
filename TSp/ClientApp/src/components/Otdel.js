@@ -1,57 +1,57 @@
 ﻿import React, { Component } from 'react';
 
-var listOtdel = [
-    {
-        id: 1,
-        name: "Аппарат управления"
-    },
-    {
-        id: 2,
-        name: "Группа системного администрирования"
-    },
-    {
-        id: 3,
-        name: "Инженерный отдел",
-        child: [
-            {
-                id: 3.1,
-                name: "Участок Автоматизированных Систем Управления"
-            },
-            {
-                id: 3.2,
-                name: "Участок сопровождения",
-                child: [
-                    {
-                        id: 3.3,
-                        name: "Участок сопровождения 1"
-                    },
-                    {
-                        id: 3.3,
-                        name: "Участок сопровождения 2"
-                    },
+//var listOtdel = [
+//    {
+//        id: 1,
+//        name: "Аппарат управления"
+//    },
+//    {
+//        id: 2,
+//        name: "Группа системного администрирования"
+//    },
+//    {
+//        id: 3,
+//        name: "Инженерный отдел",
+//        child: [
+//            {
+//                id: 3.1,
+//                name: "Участок Автоматизированных Систем Управления"
+//            },
+//            {
+//                id: 3.2,
+//                name: "Участок сопровождения",
+//                child: [
+//                    {
+//                        id: 3.3,
+//                        name: "Участок сопровождения 1"
+//                    },
+//                    {
+//                        id: 3.3,
+//                        name: "Участок сопровождения 2"
+//                    },
 
-                ]
-            },
+//                ]
+//            },
 
-        ]
-    },
-    {
-        id: 4,
-        name: "Информационно-технический отдел"
-    },
-    {
-        id: 5,
-        name: "Испытательный центр"
-    },
-    {
-        id: 6,
-        name: "Конструкторский отдел"
-    },
-    {
-        id: 7,
-        name: "Отдел бухгалтерского учета"
-    }
-]
+//        ]
+//    },
+//    {
+//        id: 4,
+//        name: "Информационно-технический отдел"
+//    },
+//    {
+//        id: 5,
+//        name: "Испытательный центр"
+//    },
+//    {
+//        id: 6,
+//        name: "Конструкторский отдел"
+//    },
+//    {
+//        id: 7,
+//        name: "Отдел бухгалтерского учета"
+//    }
+//]
 
 
 
@@ -86,20 +86,20 @@ export class Otdel extends Component {
         };
 
 
-        function funOtdels(data, k) {
-            const { otdelName, subOtdel } = data;
+        function funOtdels(data) {
+            const { otdelName, subOtdel, otdelId } = data;
 
             return (
 
                 //<p>{otdelName}</p>
                 <>
                     <li className="list-group-item">
-                        <button id={k} href={"#"} type="button">{otdelName} </button>
+                        <button id={otdelId} href={"#"} type="button">{otdelName} </button>
                     </li>
                     <ul>
                         {
                             subOtdel &&
-                            subOtdel.map((i, n) => <>{funOtdels(i, n)}</>)
+                            subOtdel.map((i) => <>{funOtdels(i)}</>)
                         }
                     </ul>
                 </>
@@ -111,7 +111,7 @@ export class Otdel extends Component {
         function handleData(arr) {
 
             return (
-                arr.map((data, i) => <>{funOtdels(data, i)}</>)
+                arr.map((data) => <>{funOtdels(data)}</>)
             );
 
             //return <p>2222</p>

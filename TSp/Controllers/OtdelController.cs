@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TSp.Models;
 using TSp.Repository;
-using Newtonsoft.Json;
 
 
 namespace TSp.Controllers
@@ -45,7 +44,7 @@ namespace TSp.Controllers
                     };
                     if(item.SubOtdel.Count != 0)
                     {
-                        otdel.SubOtdel = new List<Otdel>();
+                        //otdel.SubOtdel = new List<Otdel>();
                         foreach(var it in item.SubOtdel)
                         {
                             Otdel subOtdel = new Otdel()
@@ -61,22 +60,6 @@ namespace TSp.Controllers
                     newList.Add(otdel);
                 }
             }
-
-
-            //string json = JsonConvert.SerializeObject(list, Formatting.Indented);
-
-            //list = Enumerable.Range(1, 5).Select(index => new myOtdel
-            //{
-            //    OtdelName = "otdel1",
-            //    SubOtdel = null
-
-            //})
-            //.ToArray();
-
-            //Otdel[] otdels = list.ToArray();
-
-
-
             return newList.ToArray();
 
         }

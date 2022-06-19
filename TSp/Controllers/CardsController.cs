@@ -12,19 +12,45 @@ namespace TSp.Controllers
     [Route("[controller]")]
     public class CardsController : ControllerBase
     {
+        private IPersonRepository personRepo;
+
+        public CardsController(IPersonRepository repo)
+        {
+            personRepo = repo;
+        }
+
 
         [HttpGet]
-        public void Get(int otdel, string alpha, string search, int page)
+        public IEnumerable<Personal> Get(int otdel, string alpha, string search, int page)
         {
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
+            List<Personal> listPersonal;
 
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+            if (otdel < 0)
+                listPersonal =  personRepo.Personal.ToList();
+
+            else
+            {
+                listPersonal = personRepo.Personal.Where(it => it.PersonalOtdelId == otdel).ToList();
+            }
+
+
+            string[] ar = new string[listPersonal.Count];
+            int i = 0;
+
+            List<Personal> newList = new List<Personal>();
+
+            foreach (var person in listPersonal)
+            {
+                ar[i++] = person.PersonalLastName;
+
+                newList.Add(new Personal
+                {
+                    PersonalLastName = person.PersonalLastName,
+                    PersonalEmail = person.PersonalEmail
+                });
+            }
+
+            return listPersonal.ToArray();
         }
 
 
