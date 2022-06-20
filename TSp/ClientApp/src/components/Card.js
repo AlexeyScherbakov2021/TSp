@@ -19,10 +19,6 @@ export class Card extends Component {
 
     renderCard(item) {
 
-        //console.log("renderCard " + item.personalLastName);
-
-
-
         var divCardStyle = {
             marginTop: "12px",
             marginLeft: "10px"

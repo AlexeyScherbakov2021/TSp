@@ -20,7 +20,6 @@ export class Alpha extends Component {
     Alphabet = [];
 
     componentDidMount() {
-        //console.log("componentDidMount alpha");
         this.LoadAlpha();
     }
 
@@ -45,7 +44,6 @@ export class Alpha extends Component {
             marginLeft: "1px"
         };
 
-        //return <p><em>Loading alpha...</em></p>
             
         return this.state.loading
             ? <p><em>Loading alpha...</em></p>
@@ -64,13 +62,10 @@ export class Alpha extends Component {
     }
 
     async LoadAlpha() {
-        //console.log("LoadAlpha");
-
         const response = await fetch('alpha');
         const data = await response.json();
         this.Alphabet = data;
         this.setState({ loading: false });
-        //console.log("LoadAlpha данные есть " + this.Alphabet);
     }
 
 }

@@ -1,59 +1,5 @@
 ﻿import React, { Component } from 'react';
 
-//var listOtdel = [
-//    {
-//        id: 1,
-//        name: "Аппарат управления"
-//    },
-//    {
-//        id: 2,
-//        name: "Группа системного администрирования"
-//    },
-//    {
-//        id: 3,
-//        name: "Инженерный отдел",
-//        child: [
-//            {
-//                id: 3.1,
-//                name: "Участок Автоматизированных Систем Управления"
-//            },
-//            {
-//                id: 3.2,
-//                name: "Участок сопровождения",
-//                child: [
-//                    {
-//                        id: 3.3,
-//                        name: "Участок сопровождения 1"
-//                    },
-//                    {
-//                        id: 3.3,
-//                        name: "Участок сопровождения 2"
-//                    },
-
-//                ]
-//            },
-
-//        ]
-//    },
-//    {
-//        id: 4,
-//        name: "Информационно-технический отдел"
-//    },
-//    {
-//        id: 5,
-//        name: "Испытательный центр"
-//    },
-//    {
-//        id: 6,
-//        name: "Конструкторский отдел"
-//    },
-//    {
-//        id: 7,
-//        name: "Отдел бухгалтерского учета"
-//    }
-//]
-
-
 
 export class Otdel extends Component {
     static displayName = Otdel.name;
@@ -67,10 +13,7 @@ export class Otdel extends Component {
 
     componentDidMount() {
         this.LoadOtdelData();
-        //console.log("componentDidMount для отделов.");
     }
-
-
 
 
     render() {
@@ -115,17 +58,11 @@ export class Otdel extends Component {
                 arr.map((data) => <>{funOtdels(data)}</>)
             );
 
-            //return <p>2222</p>
-
-            //return (arr.map((data) => <p>{data.otdelName}</p>));
-
         }
 
         let contents = this.state.loading
             ? <p><em>Loading otdels...</em></p>
             : handleData(this.state.listOtdel2);
-            //: this.state.listOtdel2.map((data) => <p>{data.otdelName}</p>);
-
 
         return (
 

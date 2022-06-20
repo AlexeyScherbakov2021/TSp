@@ -19,32 +19,4 @@ namespace TSp.Models
         public string RouteOtdels { get; set; }
     }
 
-    public class ListCards
-    {
-        List<Card> listCard;
-
-        public ListCards(IEnumerable<Personal> listPers)
-        {
-            listCard = new List<Card>();
-            foreach (var p in listPers)
-            {
-                listCard.Add(
-                    new Card
-                    {
-                        PersonalId = p.PersonalId,
-                        PersonalName = p.PersonalName,
-                        PersonalLastName = p.PersonalLastName,
-                        PersonalMidName = p.PersonalMidName,
-                        PersonalEmail = p.PersonalEmail,
-                        PersonalTel = p.PersonalTel,
-                        PersonalMobil = p.PersonalMobil,
-                        PersonalPhoto = p.PersonalPhoto,
-                        PersonalDisabled = p.PersonalDisabled,
-                        PersonalProfId = p.PersonalProfId,
-                        PersonalOtdelId = p.PersonalOtdelId
-                    }
-                    ); ;
-            }
-        }
-    }
 }

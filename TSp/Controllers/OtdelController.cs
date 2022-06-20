@@ -21,11 +21,8 @@ namespace TSp.Controllers
         }
 
 
-
-
         [HttpGet]
         public IEnumerable<Otdel> Get()
-        //public string Get()
         {
             List<Otdel> list = otdelRepo.Otdel.ToList();
 
@@ -40,11 +37,9 @@ namespace TSp.Controllers
                         OtdelId = item.OtdelId,
                         OtdelName = item.OtdelName,
                         OtdelParentId = item.OtdelParentId,
-                        //SubOtdel = new List<Otdel>()
                     };
                     if(item.SubOtdel.Count != 0)
                     {
-                        //otdel.SubOtdel = new List<Otdel>();
                         foreach(var it in item.SubOtdel)
                         {
                             Otdel subOtdel = new Otdel()

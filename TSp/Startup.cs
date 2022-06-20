@@ -33,11 +33,6 @@ namespace TSp
             services.AddTransient<IOtdelRepository, OtdelRepository>();
             services.AddTransient<IProfRepository, ProfRepository>();
 
-            //PersonalNGKContext ctx = new PersonalNGKContext();
-            //List<Otdel> list = ctx.Otdel.ToList();
-
-
-            // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
