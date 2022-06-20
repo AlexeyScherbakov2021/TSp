@@ -67,6 +67,7 @@ export class Otdel extends Component {
 
     componentDidMount() {
         this.LoadOtdelData();
+        //console.log("componentDidMount для отделов.");
     }
 
 
@@ -92,17 +93,17 @@ export class Otdel extends Component {
             return (
 
                 //<p>{otdelName}</p>
-                <>
-                    <li className="list-group-item">
+                <div key={data.otdelId}>
+                    <li className="list-group-item" key={data.otdelId}>
                         <button id={otdelId} href={"#"} type="button">{otdelName} </button>
-                    </li>
-                    <ul>
                         {
                             subOtdel &&
-                            subOtdel.map((i) => <>{funOtdels(i)}</>)
+                        <ul>
+                                {subOtdel.map((i) => <>{funOtdels(i)}</>)}
+                        </ul>
                         }
-                    </ul>
-                </>
+                    </li>
+                </div>
             );
         };
 
@@ -121,7 +122,7 @@ export class Otdel extends Component {
         }
 
         let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
+            ? <p><em>Loading otdels...</em></p>
             : handleData(this.state.listOtdel2);
             //: this.state.listOtdel2.map((data) => <p>{data.otdelName}</p>);
 

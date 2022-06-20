@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,48 +14,132 @@ namespace TSp.Controllers
     public class CardsController : ControllerBase
     {
         private IPersonRepository personRepo;
+        private IOtdelRepository otdelRepo;
 
-        public CardsController(IPersonRepository repo)
+        public CardsController(IPersonRepository repo, IOtdelRepository repoOtdel)
         {
             personRepo = repo;
+            otdelRepo = repoOtdel;
         }
 
 
         [HttpGet]
-        public IEnumerable<Personal> Get(int otdel, string alpha, string search, int page)
+        public IEnumerable<Card> Get(int otdel, string alpha, string search, int page)
         {
             List<Personal> listPersonal;
-
-            if (otdel < 0)
-                listPersonal =  personRepo.Personal.ToList();
-
-            else
+            
+            if(!string.IsNullOrEmpty(search))
             {
-                listPersonal = personRepo.Personal.Where(it => it.PersonalOtdelId == otdel).ToList();
+                listPersonal = personRepo.Personal
+                    .Where(it => it.PersonalLastName.Contains(search)
+                             || it.PersonalName.Contains(search)
+                             || it.PersonalMidName.Contains(search)
+                             || it.PersonalPhoto.Contains(search)
+                             || it.PersonalMobil.Contains(search)
+                     )
+                    .Include(it => it.PersonalProf)
+                    .Include(it => it.PersonalOtdel)
+                    .OrderBy(it => it.PersonalLastName)
+                    .ThenBy(it => it.PersonalName)
+                    .ThenBy(it => it.PersonalMidName)
+                    .ToList();
+
+            }
+
+            else if (otdel < 0)
+                // выбран весь список
+                listPersonal =  personRepo.Personal
+                    .Where(it => it.PersonalDisabled != true)
+                    .Include(it => it.PersonalProf)
+                    .Include(it => it.PersonalOtdel)
+                    .OrderBy(it => it.PersonalLastName)
+                    .ThenBy(it => it.PersonalName)
+                    .ThenBy(it => it.PersonalMidName)
+                    .ToList();
+
+            else 
+            {
+                // выбран отдел
+
+                // получение списка подотделов
+                List<int> idOtdels = new List<int>();
+                idOtdels.Add(otdel);
+                GetSubOtdels(otdel, idOtdels);
+
+                listPersonal = personRepo.Personal
+                    .Where(it => idOtdels.Contains(it.PersonalOtdelId.Value) && it.PersonalDisabled != true)
+                    .Include(it => it.PersonalProf)
+                    .Include(it => it.PersonalOtdel)
+                    .Include(it => it.PersonalOtdel.OtdelParent)
+                    .OrderBy(it => it.PersonalLastName)
+                    .ThenBy(it => it.PersonalName)
+                    .ThenBy(it => it.PersonalMidName)
+                    .ToList();
+
+            }
+
+            if(!string.IsNullOrEmpty(alpha))
+            {
+                // выбрана буква
+                listPersonal = listPersonal
+                    .Where(it => it.PersonalLastName.Substring(0, 1).ToUpper() == alpha)
+                    .ToList();
             }
 
 
-            string[] ar = new string[listPersonal.Count];
-            int i = 0;
-
-            List<Personal> newList = new List<Personal>();
-
-            foreach (var person in listPersonal)
-            {
-                ar[i++] = person.PersonalLastName;
-
-                newList.Add(new Personal
-                {
-                    PersonalLastName = person.PersonalLastName,
-                    PersonalEmail = person.PersonalEmail
-                });
-            }
-
-            return listPersonal.ToArray();
+            return BuildCards(listPersonal);
         }
 
+        //---------------------------------------------------------------------------------------------------        
+        //---------------------------------------------------------------------------------------------------        
+        private void GetSubOtdels(int idOtdel, List<int> idOtdels)
+        {
+            Otdel lo = otdelRepo.Otdel.Where(o => o.OtdelId == idOtdel).Include(p => p.SubOtdel).FirstOrDefault();
+            foreach (Otdel o in lo.SubOtdel)
+            {
+                idOtdels.Add(o.OtdelId);
+                GetSubOtdels(o.OtdelId, idOtdels);
+            }
 
+        }
 
+        //---------------------------------------------------------------------------------------------------        
+        //---------------------------------------------------------------------------------------------------        
+        private IEnumerable<Card> BuildCards(List<Personal> listPersonal)
+        {
+            List<Card> cards = new List<Card>();
+            foreach(Personal p in listPersonal)
+            {
+                Card card = new Card
+                {
+                    PersonalId = p.PersonalId,
+                    PersonalName = p.PersonalName,
+                    PersonalLastName = p.PersonalLastName,
+                    PersonalMidName = p.PersonalMidName,
+                    PersonalEmail = p.PersonalEmail,
+                    PersonalTel = p.PersonalTel,
+                    PersonalMobil = p.PersonalMobil,
+                    PersonalPhoto = p.PersonalPhoto,
+                    PersonalDisabled = p.PersonalDisabled,
+                    PersonalProfId = p.PersonalProfId,
+                    PersonalOtdelId = p.PersonalOtdelId
+                };
+
+                card.Profession = p.PersonalProf.ProfName;
+                card.RouteOtdels = p.PersonalOtdel?.OtdelName;
+
+                Otdel parentOtdel = p.PersonalOtdel?.OtdelParent;
+                while (parentOtdel != null)
+                {
+                    card.RouteOtdels = parentOtdel.OtdelName + " / " +  card.RouteOtdels;
+                    parentOtdel = parentOtdel.OtdelParent;
+                }
+                cards.Add(card );
+
+            }
+
+            return cards.ToArray();
+        }
 
     }
 }

@@ -11,7 +11,7 @@ namespace TSp.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class OtdelController
+    public class OtdelController : ControllerBase
     {
         private IOtdelRepository otdelRepo;
 

@@ -26,7 +26,8 @@ export class NavMenu extends Component {
         <Navbar className="navbar-dark navbar-expand-md sticky-top bg-dark py-3" light>
                 <Container>
                     <NavbarBrand className="d-flex align-items-center" tag={Link} to="/">Телефонный справочник</NavbarBrand>
-            <NavbarToggler onClick={this.toggleNavbar} dataBsToggle="collapse" dataBsTarget="#navcol5" />
+            <NavbarToggler onClick={this.toggleNavbar} />
+            {/*<NavbarToggler onClick={this.toggleNavbar} dataBsToggle="collapse" dataBsTarget="#navcol5" />*/}
             <Collapse className="navbar-collapse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav ms-auto">
                 <NavItem>
