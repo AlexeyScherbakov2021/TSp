@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 
 
 export class Card extends Component {
@@ -12,7 +12,7 @@ export class Card extends Component {
     }
 
     render() {
-        console.log("Render card.");
+        //console.log("Render card.");
         return this.props.listPerson.map((item) => this.renderCard(item));
     }
 
@@ -25,11 +25,11 @@ export class Card extends Component {
         };
 
         var cardStyle = {
-            background: "#eafcf8",
-            borderRadius: "15px",
-            boxShadow: "2px 2px 5px rgb(155,155,155)",
+            background: "#effeff",
+            borderRadius: "11px",
+            boxShadow: "0px 0px 8px 1px var(--bs-secondary),inset 0px 0px 10px 0px rgb(123,186,249)",
             marginBottom: "13px",
-            border: "3px solid #83f0ff",
+            border: "2px solid rgb(82,168,255)",
             marginRight: "8px"
         };
 

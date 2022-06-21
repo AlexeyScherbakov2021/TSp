@@ -9,39 +9,76 @@ export class NavMenu extends Component {
   constructor (props) {
     super(props);
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
+      this.toggleNavbar = this.toggleNavbar.bind(this);
+      this.searchSubmit = this.searchSubmit.bind(this);
+      this.searchChange = this.searchChange.bind(this);
+
+
     this.state = {
-      collapsed: true
+        collapsed: true,
+        textSearch: ""
     };
   }
 
+    //-----------------------------------------------------------------------------------
+    searchSubmit(e) {
+        //console.log("search works " + this.state.textSearch);
+        this.props.updateData(this.state.textSearch);
+        this.setState({
+            textSearch: ""
+        });
+        //this.props.updateData(null);
+    }
+
+    //-----------------------------------------------------------------------------------
+    searchChange(e) {
+
+        this.setState({
+            textSearch: e.target.value
+        });
+        //console.log(this.textSearch);
+    }
+
+
+    //-----------------------------------------------------------------------------------
   toggleNavbar () {
     this.setState({
       collapsed: !this.state.collapsed
     });
   }
 
-  render () {
+    //-----------------------------------------------------------------------------------
+    render() {
+        //console.log("параметр NavMenu " + this.props.updateData);
+
+
     return (
-        <Navbar className="navbar-dark navbar-expand-md sticky-top bg-dark py-3" light>
-                <Container>
-                    <NavbarBrand className="d-flex align-items-center" tag={Link} to="/">Телефонный справочник</NavbarBrand>
-            <NavbarToggler onClick={this.toggleNavbar} />
-            {/*<NavbarToggler onClick={this.toggleNavbar} dataBsToggle="collapse" dataBsTarget="#navcol5" />*/}
-            <Collapse className="navbar-collapse" isOpen={!this.state.collapsed} navbar>
-              <ul className="navbar-nav ms-auto">
-                <NavItem>
-                  <NavLink tag={Link}  to="/">Home</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="active" to="/counter">Counter</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} to="/fetch-data">Fetch data</NavLink>
-                </NavItem>
-              </ul>
-            </Collapse>
-          </Container>
+        <Navbar className="navbar-dark navbar-expand-md sticky-top py-2 " style={{ background: "#00406b" }}>
+            <div className="container-fluid">
+                <img src="photo/NGK.png" style={{ width: 110 }} className="img-thumbnail bg-primary mx-2" />
+                    <NavbarBrand className="" tag={Link} to="/">Телефонный справочник</NavbarBrand>
+                <NavbarToggler onClick={this.toggleNavbar} />
+                <Collapse className="navbar-collapse" isOpen={!this.state.collapsed} navbar>
+                    <ul className="navbar-nav ms-auto">
+                        <NavItem>
+                          <NavLink tag={Link}  to="/">Home</NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink tag={Link} className="active" to="/counter">Counter</NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink tag={Link} to="/fetch-data">Fetch data</NavLink>
+                        </NavItem>
+                    </ul>
+                    <input type="search" autoComplete="on" placeholder="Поиск..." onChange={this.searchChange} value={this.state.textSearch}></input>
+                    <button onClick={this.searchSubmit}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" className="bi bi-search">
+                            <path fillRule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"></path>
+                            <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"></path>
+                        </svg>
+                    </button>
+                </Collapse>
+          </div>
         </Navbar>
     );
   }

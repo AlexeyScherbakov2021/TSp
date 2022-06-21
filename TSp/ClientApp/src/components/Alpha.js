@@ -27,12 +27,12 @@ export class Alpha extends Component {
     render() {
 
         var alphaStyle = {
-            paddingBottom: "2px",
+            paddingBottom: "6px",
             marginTop: "0px",
             background: "var(--bs-gray-100)",
             paddingTop: "5px",
             position: "sticky",
-            top: "74px",
+            top: "60px",
             zIndex: "1010"
         };
 
@@ -51,7 +51,7 @@ export class Alpha extends Component {
                 <div id="alpha" style={alphaStyle} >
                     {
                         this.Alphabet.map((alpha, i) => (
-                        <button id={alpha} className="border rounded border-primary" href={"#"} key={i} type="button"
+                            <button id={alpha} className={alpha == this.props.currentAlpha ? "border rounded border-primary btn-primary" : "border rounded border-primary" } href={"#"} key={i} type="button"
                             style={alphaButtonStyle} onClick={this.props.callBack}>
                             <strong id={alpha}>{alpha}</strong>
                             </button>))
