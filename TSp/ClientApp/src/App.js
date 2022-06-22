@@ -14,18 +14,18 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            searchText: null
+            searchText: ""
         };
 
 
-        //this.updateData = this.updateData.bind(this);
+        this.updateData = this.updateData.bind(this);
     }
 
 
-    //updateData = (value) => {
-    //    this.setState({ searchText: value });
-    //    //console.log("App text: " + this.state.searchText);
-    //}
+    updateData = (value) => {
+        this.setState({ searchText: value });
+        //console.log("App text: " + this.state.searchText);
+    }
 
 
     render() {
@@ -34,8 +34,8 @@ export default class App extends Component {
 
     return (
         <Layout updateData={this.updateData }>
-        <Route exact path='/' component={Home} />
-            {/*<Route exact path='/' render={(props) => <Home searchText={this.state.searchText} {...props} />} />*/}
+        {/*<Route exact path='/' component={Home} />*/}
+            <Route exact path='/' render={(props) => <Home searchText={this.state.searchText} {...props} />} />
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
       </Layout>

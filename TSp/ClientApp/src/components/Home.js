@@ -13,8 +13,9 @@ export class Home extends Component {
     curAlpha;
     curOtdel = -1;
     curSearch;
-    oldSearch;
+    sourceUpdate;
 
+    oldSearch;
 
     constructor(props) {
         super(props);
@@ -33,29 +34,63 @@ export class Home extends Component {
         this.LoadCardData(this.curOtdel, this.curAlpha, null, 1);
     }
 
-    //shouldComponentUpdate() {
 
-    //    console.log("Home render " + this.props.searchText);
+    componentDidUpdate() {
+        //console.log("componentDidUpdate");
+        this.state.loading = true;
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+
+        if (nextState.loading && this.sourceUpdate == null && nextProps.searchText != "") {
+            this.curSearch = nextProps.searchText;
+            this.curAlpha = null;
+            this.curOtdel = null;
+            this.sourceUpdate = "search";
+        }
+
+        if (nextState.loading) {
+            this.LoadCardData(this.curOtdel, this.curAlpha, this.curSearch, 1);
+            return false;
+        }
+
+        //console.log("Home render " + this.props.searchText);
+
+        //if (this.oldSearch == this.props.searchText) {
+        //    return false;
+        //}
+
+        //this.oldSearch = this.props.searchText
+
+
     //    if (this.props.searchText != null && this.oldSearch != this.props.searchText) {
-    //        this.newSearch = this.props.searchText;
+    //        this.oldSearch = this.props.searchText
     //        this.LoadCardData(null, null, this.props.searchText, 1);
     //        console.log("Home LoadCardData " + this.props.searchText);
     //    }
 
-    //    return true;
-    //}
+        return true;
+    }
 
     //-----------------------------------------------------------------------------------
     clickOtdel(e) {
+        this.sourceUpdate = "otdel";
         this.curOtdel = e.target.id;
         this.curAlpha = null;
-        this.LoadCardData(this.curOtdel, this.curAlpha, null, 1);
+        this.curSearch = null;
+        //console.log("clickOtdel=" + this.curOtdel);
+
+        this.setState({ loading: true });
+        //this.LoadCardData(this.curOtdel, this.curAlpha, null, 1);
     }
 
     //-----------------------------------------------------------------------------------
     clickAlpha(e) {
+        this.sourceUpdate = "alpha";
         this.curAlpha = e.target.id;
-        this.LoadCardData(this.curOtdel, this.curAlpha, null, 1);
+        this.curSearch = null;
+        this.setState({ loading: true });
+        //this.LoadCardData(this.curOtdel, this.curAlpha, null, 1);
     }
 
 
@@ -64,9 +99,25 @@ export class Home extends Component {
 
         //this.LoadCardData(this.curOtdel, this.curAlpha, null, 1);
 
-        //console.log("параметр " + this.props.searchText);
+        console.log("render loading=" + this.state.loading + " curOtdel=" + this.curOtdel);
 
-        console.log(this.listPerson);
+        //if (this.state.loading && this.sourceUpdate == null && this.props.searchText != "") {
+        //    this.curSearch = this.props.searchText;
+        //    this.curAlpha = null;
+        //    this.curOtdel = null;
+        //    this.sourceUpdate = "search";
+        //}
+
+        //console.log("render2 loading=" + this.state.loading + " curOtdel=" + this.curOtdel);
+
+
+        //console.log("render loading=" + this.state.loading);
+        console.log("render search= " + this.curSearch);
+
+
+        //console.log(this.listPerson);
+
+        this.sourceUpdate = null;
 
         return (
             this.state.loading
@@ -99,6 +150,7 @@ export class Home extends Component {
 
     //-----------------------------------------------------------------------------------
     async LoadCardData(selOtdel, selAlpha, search, page) {
+
 
         if (selOtdel == null)
             selOtdel = -1;

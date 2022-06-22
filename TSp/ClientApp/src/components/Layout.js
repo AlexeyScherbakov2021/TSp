@@ -11,8 +11,8 @@ export class Layout extends Component {
 
       return (
         <div>
-             {/*<NavMenu updateData={this.props.updateData } />*/}
-             <NavMenu />
+             <NavMenu updateData={this.props.updateData } />
+             {/*<NavMenu />*/}
             {this.props.children}
       </div>
     );

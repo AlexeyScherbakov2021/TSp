@@ -40,7 +40,7 @@ export class Otdel extends Component {
 
             <aside className="col-3 d-none d-md-block col-lg-4" style={asideStyle}>
                 <div className="mb-1">
-                    <a id="-1" href={"#"} className="fs-5 fw-bold" onClick={this.props.callBack}>Показать весь список</a>
+                    <a id="-1" className="btn btn-link fs-5 fw-bold" type="button" onClick={this.props.callBack}>Показать весь список</a>
                 </div>
                 <ul className="list-group border rounded overflow-auto" style={ulStyle} onClick={this.props.callBack}>
                     {contents}

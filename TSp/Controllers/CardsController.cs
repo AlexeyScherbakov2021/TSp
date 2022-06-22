@@ -34,7 +34,7 @@ namespace TSp.Controllers
                     .Where(it => it.PersonalLastName.Contains(search)
                              || it.PersonalName.Contains(search)
                              || it.PersonalMidName.Contains(search)
-                             || it.PersonalPhoto.Contains(search)
+                             || it.PersonalTel.Contains(search)
                              || it.PersonalMobil.Contains(search)
                      )
                     .Include(it => it.PersonalProf)
