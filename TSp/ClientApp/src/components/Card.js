@@ -80,7 +80,6 @@ export class Card extends Component {
                 <div className="card" id={item.personalId } style={cardStyle}>
                     <div className="card-body" style={cardBodyStyle}>
                         <img className="float-start" src="./photo/Cat.jpg" style={photoStyle} />
-
                         <div>
                             <h5 className="fw-bold" style={nameStyle}>{item.personalLastName + ' ' + item.personalName + ' ' + item.personalMidName}</h5>
                             <h6 className="text-muted mb-2">{item.profession}</h6>
@@ -88,7 +87,6 @@ export class Card extends Component {
                                 <a href={"#"} id={item.personalOtdelId } style={professionStyle}>{item.routeOtdels }</a>
                             </div>
                         </div>
-
                         <div>
                             <div className="d-flex align-items-center flex-wrap" style={workPhoneStyle}>
                                 <svg className="bi bi-telephone-fill" xmlns="http://www.w3.org/2000/svg" width="1em" fill="currentColor" viewBox="0 0 16 16"
@@ -113,14 +111,11 @@ export class Card extends Component {
                                 <h6 style={headerWorkPhoneStyle}>электронная почта</h6><a href="#">{item.personalEmail}</a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         );
-
     }
-    
 }
 
 

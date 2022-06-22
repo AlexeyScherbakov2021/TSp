@@ -16,6 +16,8 @@ namespace TSp.Controllers
         private IPersonRepository personRepo;
         private IOtdelRepository otdelRepo;
 
+        private static int CardsPerPage = 5;
+
         public CardsController(IPersonRepository repo, IOtdelRepository repoOtdel)
         {
             personRepo = repo;
@@ -27,7 +29,10 @@ namespace TSp.Controllers
         public IEnumerable<Card> Get(int otdel, string alpha, string search, int page)
         {
             List<Personal> listPersonal;
-            
+
+            int PageSize = page * CardsPerPage;
+
+
             if(!string.IsNullOrEmpty(search))
             {
                 listPersonal = personRepo.Personal
@@ -55,6 +60,8 @@ namespace TSp.Controllers
                     .OrderBy(it => it.PersonalLastName)
                     .ThenBy(it => it.PersonalName)
                     .ThenBy(it => it.PersonalMidName)
+                    .Skip((page - 1) * PageSize)
+                    .Take(PageSize)
                     .ToList();
 
             else 

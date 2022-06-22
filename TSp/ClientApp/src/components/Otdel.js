@@ -10,18 +10,29 @@ export class Otdel extends Component {
         this.state = { listOtdel2: [], loading: true };
 
         this.funOtdels = this.funOtdels.bind(this);
+        this.onResize = this.onResize.bind(this);
 
     }
 
     componentDidMount() {
+        window.addEventListener('resize', this.onResize)
         this.LoadOtdelData();
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResize)
+    }
+
+    onResize() {
+        this.setState({
+            loading: false 
+        })
+    }
 
     render() {
 
         var ulStyle = {
-            height: "380px",
+            height: window.innerHeight - 130,
             marginRight: "10px",
             borderStyle: "none"
         };
