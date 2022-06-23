@@ -12,7 +12,6 @@ export class Card extends Component {
     }
 
     render() {
-        //console.log("Render card.");
         return this.props.listPerson.map((item) => this.renderCard(item));
     }
 
@@ -76,10 +75,10 @@ export class Card extends Component {
         };
 
         return (
-            <div className="col-md-12 col-xxl-10" style={divCardStyle} key={item.personalId }>
-                <div className="card" id={item.personalId } style={cardStyle}>
+            <div className="col-md-12 col-xxl-10" style={divCardStyle} key={item.personalId}>
+                <div className="card" id={item.personalId} style={cardStyle}>
                     <div className="card-body" style={cardBodyStyle}>
-                        <img className="float-start" src="./photo/Cat.jpg" style={photoStyle} />
+                        <img className="float-start" src={"./photo/" + item.personalPhoto} style={photoStyle} />
                         <div>
                             <h5 className="fw-bold" style={nameStyle}>{item.personalLastName + ' ' + item.personalName + ' ' + item.personalMidName}</h5>
                             <h6 className="text-muted mb-2">{item.profession}</h6>

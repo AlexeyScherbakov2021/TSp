@@ -14,7 +14,6 @@ export class Home extends Component {
     curOtdel = -1;
     curSearch;
     sourceUpdate;
-
     oldSearch;
 
     constructor(props) {
@@ -22,9 +21,13 @@ export class Home extends Component {
 
         this.state = {
             loading: true,
-            currentPage: 1,
             keyCards: 1
         };
+
+        this.listPerson = [];
+        this.currentPage = 1;
+        this.LoadedAll = false;
+        this.endPage = false;
 
 
         this.clickOtdel = this.clickOtdel.bind(this);
@@ -67,11 +70,12 @@ export class Home extends Component {
             //this.scrollToMyRef();
             this.LoadCardData(this.curOtdel, this.curAlpha, this.curSearch, this.state.currentPage);
             this.state.keyCards += 1;
-            return false;
+            //return false;
         }
         return true;
     }
 
+    //-----------------------------------------------------------------------------------
     onScrollList(e) {
         const height = document.body.clientHeight;
         const screenHeight = window.innerHeight;
@@ -80,26 +84,14 @@ export class Home extends Component {
         const threshold = height - screenHeight / 4;
         const position = scrolled + screenHeight;
 
-        if (position >= threshold) {
-            //this.setState({
-            //    currentPage: this.state.currentPage
-            //});
-            console.log("page " + this.state.currentPage);
-            this.LoadCardData(this.curOtdel, this.curAlpha, this.curSearch, this.state.currentPage);
+        if (position >= threshold && !this.LoadedAll && !this.endPage) {
+            this.endPage = true;
+            this.currentPage++;
+            //console.log("page " + this.currentPage);
+            this.LoadCardData(this.curOtdel, this.curAlpha, this.curSearch, this.currentPage);
         }
 
-    //    console.log("scrollY " + window.scrollY);
-    //    console.log("innerHeight " + window.innerHeight);
-    //    console.log("clientHeight " + document.body.clientHeight);
-    //    if ((window.scrollY + window.innerHeight) >= document.body.clientHeight) {
-    //        this.setState({
-    //            currentPage: this.state.currentPage + 1
-    //        });
-    //        console.log("page " + this.state.currentPage);
-    //    }
-}
-
-
+    }
 
 
     //scrollToMyRef = () => {
@@ -114,6 +106,8 @@ export class Home extends Component {
         this.curOtdel = e.target.id;
         this.curAlpha = null;
         this.curSearch = null;
+        this.currentPage = 1;
+        this.LoadedAll = false;
 
         this.setState({ loading: true });
     }
@@ -123,6 +117,8 @@ export class Home extends Component {
         this.sourceUpdate = "alpha";
         this.curAlpha = e.target.id;
         this.curSearch = null;
+        this.currentPage = 1;
+        this.LoadedAll = false;
         this.setState({ loading: true });
     }
 
@@ -130,21 +126,17 @@ export class Home extends Component {
     //-----------------------------------------------------------------------------------
     render() {
 
-        //console.log("render innerHeight=" + window.innerHeight);
-        //console.log("render outerHeight=" + window.outerHeight);
-        //console.log("render search= " + this.curSearch);
-
         this.sourceUpdate = null;
 
         return (
-            //this.state.loading
-            //    ? <p><em>Загрузка карт...</em></p>
-            //    : 
+
             <div className="container-fluid d-flex" ref={this.myRef} >
                 <Otdel callBack={this.clickOtdel} currentOtdel={this.curOtdel} />
                 <div className="col-12 offset-0 offset-md-3 col-md-9 offset-lg-4 col-lg-8">
-                    <Alpha callBack={this.clickAlpha} currentAlpha={this.curAlpha} />
-                    <Card listPerson={this.listPerson} key={this.state.keyCards}  />
+                        <Alpha callBack={this.clickAlpha} currentAlpha={this.curAlpha} />
+                    { this.state.loading
+                        ? <img src="loading_spinner.gif" />
+                        : <Card listPerson={this.listPerson} /> }
                 </div>
           </div>
 
@@ -155,7 +147,6 @@ export class Home extends Component {
     //onScroll = { event => onScrollList(event) } style = {{ transition: 'ease 0.5s' }}
     //-----------------------------------------------------------------------------------
     async LoadCardData(selOtdel, selAlpha, search, page) {
-
 
         if (selOtdel == null)
             selOtdel = -1;
@@ -171,15 +162,23 @@ export class Home extends Component {
 
         const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page);
         const data = await response.json();
-        this.listPerson = data;
+        if (data.length == 0 && page > 1) {
+            this.LoadedAll = true;
+            return;
+        }
+
+        if (page > 1) {
+            for (let d of data)
+                this.listPerson.push(d);
+        } else {
+            this.listPerson = data;
+        }
+
         this.setState({ loading: false });
+        this.endPage = false;
     }
 
 }
 
 
 
-
-
-
-{/*{cards.map((item, i) => (<Card mans={item } />))}*/ }

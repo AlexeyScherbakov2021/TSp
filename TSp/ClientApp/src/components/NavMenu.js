@@ -22,12 +22,10 @@ export class NavMenu extends Component {
 
     //-----------------------------------------------------------------------------------
     searchSubmit(e) {
-        //console.log("search works " + this.state.textSearch);
         this.props.updateData(this.state.textSearch);
         this.setState({
             textSearch: ""
         });
-        //this.props.updateData(null);
     }
 
     //-----------------------------------------------------------------------------------
@@ -36,7 +34,6 @@ export class NavMenu extends Component {
         this.setState({
             textSearch: e.target.value
         });
-        //console.log(this.textSearch);
     }
 
 
@@ -49,13 +46,11 @@ export class NavMenu extends Component {
 
     //-----------------------------------------------------------------------------------
     render() {
-        //console.log("параметр NavMenu " + this.props.updateData);
-
 
     return (
         <Navbar className="navbar-dark navbar-expand-md sticky-top py-2 " style={{ background: "#00406b" }}>
             <div className="container-fluid">
-                <img src="photo/NGK.png" style={{ width: 110 }} className="img-thumbnail bg-primary mx-2" />
+                <img src="NGK.png" style={{ width: 110 }} className="img-thumbnail bg-primary mx-2" />
                     <NavbarBrand className="" tag={Link} to="/">Телефонный справочник</NavbarBrand>
                 <NavbarToggler onClick={this.toggleNavbar} />
                 <Collapse className="navbar-collapse" isOpen={!this.state.collapsed} navbar>

@@ -24,7 +24,6 @@ export default class App extends Component {
 
     updateData = (value) => {
         this.setState({ searchText: value });
-        //console.log("App text: " + this.state.searchText);
     }
 
 

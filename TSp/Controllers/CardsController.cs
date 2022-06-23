@@ -33,7 +33,7 @@ namespace TSp.Controllers
             int PageSize = page * CardsPerPage;
 
 
-            if(!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(search))
             {
                 listPersonal = personRepo.Personal
                     .Where(it => it.PersonalLastName.Contains(search)
@@ -47,50 +47,79 @@ namespace TSp.Controllers
                     .OrderBy(it => it.PersonalLastName)
                     .ThenBy(it => it.PersonalName)
                     .ThenBy(it => it.PersonalMidName)
+                    .Skip((page - 1) * PageSize)
+                    .Take(PageSize)
                     .ToList();
 
             }
 
             else if (otdel < 0)
                 // выбран весь список
-                listPersonal =  personRepo.Personal
-                    .Where(it => it.PersonalDisabled != true)
-                    .Include(it => it.PersonalProf)
-                    .Include(it => it.PersonalOtdel)
-                    .OrderBy(it => it.PersonalLastName)
-                    .ThenBy(it => it.PersonalName)
-                    .ThenBy(it => it.PersonalMidName)
-                    .Skip((page - 1) * PageSize)
-                    .Take(PageSize)
-                    .ToList();
-
-            else 
+                if (!string.IsNullOrEmpty(alpha))
+                {
+                    // выбрана буква
+                    listPersonal = personRepo.Personal
+                        .Where(it => it.PersonalDisabled != true && it.PersonalLastName.Substring(0, 1) == alpha)
+                        .Include(it => it.PersonalProf)
+                        .Include(it => it.PersonalOtdel)
+                        .OrderBy(it => it.PersonalLastName)
+                        .ThenBy(it => it.PersonalName)
+                        .ThenBy(it => it.PersonalMidName)
+                        .Skip((page - 1) * PageSize)
+                        .Take(PageSize)
+                        .ToList();
+                }
+                else
+                {
+                    listPersonal = personRepo.Personal
+                            .Where(it => it.PersonalDisabled != true)
+                            .Include(it => it.PersonalProf)
+                            .Include(it => it.PersonalOtdel)
+                            .OrderBy(it => it.PersonalLastName)
+                            .ThenBy(it => it.PersonalName)
+                            .ThenBy(it => it.PersonalMidName)
+                            .Skip((page - 1) * PageSize)
+                            .Take(PageSize)
+                            .ToList();
+                }
+            else
             {
                 // выбран отдел
-
                 // получение списка подотделов
                 List<int> idOtdels = new List<int>();
                 idOtdels.Add(otdel);
                 GetSubOtdels(otdel, idOtdels);
 
-                listPersonal = personRepo.Personal
-                    .Where(it => idOtdels.Contains(it.PersonalOtdelId.Value) && it.PersonalDisabled != true)
-                    .Include(it => it.PersonalProf)
-                    .Include(it => it.PersonalOtdel)
-                    .Include(it => it.PersonalOtdel.OtdelParent)
-                    .OrderBy(it => it.PersonalLastName)
-                    .ThenBy(it => it.PersonalName)
-                    .ThenBy(it => it.PersonalMidName)
-                    .ToList();
-
-            }
-
-            if(!string.IsNullOrEmpty(alpha))
-            {
-                // выбрана буква
-                listPersonal = listPersonal
-                    .Where(it => it.PersonalLastName.Substring(0, 1).ToUpper() == alpha)
-                    .ToList();
+                if (!string.IsNullOrEmpty(alpha))
+                {
+                    // выбрана буква
+                    listPersonal = personRepo.Personal
+                        .Where(it => it.PersonalDisabled != true
+                            && idOtdels.Contains(it.PersonalOtdelId.Value)
+                            && it.PersonalLastName.Substring(0, 1) == alpha)
+                        .Include(it => it.PersonalProf)
+                        .Include(it => it.PersonalOtdel)
+                        .OrderBy(it => it.PersonalLastName)
+                        .ThenBy(it => it.PersonalName)
+                        .ThenBy(it => it.PersonalMidName)
+                        .Skip((page - 1) * PageSize)
+                        .Take(PageSize)
+                        .ToList();
+                }
+                else
+                {
+                    listPersonal = personRepo.Personal
+                        .Where(it => idOtdels.Contains(it.PersonalOtdelId.Value) && it.PersonalDisabled != true)
+                        .Include(it => it.PersonalProf)
+                        .Include(it => it.PersonalOtdel)
+                        .Include(it => it.PersonalOtdel.OtdelParent)
+                        .OrderBy(it => it.PersonalLastName)
+                        .ThenBy(it => it.PersonalName)
+                        .ThenBy(it => it.PersonalMidName)
+                        .Skip((page - 1) * PageSize)
+                        .Take(PageSize)
+                        .ToList();
+                }
             }
 
 

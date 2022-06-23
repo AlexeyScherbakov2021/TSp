@@ -45,7 +45,7 @@ export class Otdel extends Component {
 
         let contents = this.state.loading
             ? <p><em>Загрузка отделов...</em></p>
-            : this.state.listOtdel2.map((data, i) => <>{this.funOtdels(data, i)}</>)
+            : this.state.listOtdel2.map((data) => this.funOtdels(data))
 
         return (
 
@@ -61,26 +61,23 @@ export class Otdel extends Component {
     }
 
     //-----------------------------------------------------------------------------------------------
-   funOtdels(data, i) {
+   funOtdels(data) {
     const { otdelName, subOtdel, otdelId } = data;
 
        return (
 
-           //<p>{otdelName}</p>
-           //<div key={data.otdelId}>
            <li className={otdelId == this.props.currentOtdel ? "list-group-item active border border-primary rounded-2 border-0 text-light" : "list-group-item"}
-               id={otdelId} style={{ padding: 0 }} >
+               id={otdelId} style={{ padding: 0 }} key={otdelId }>
 
                <button id={otdelId} className={otdelId == this.props.currentOtdel ? "btn text-start text-light" : "btn text-start"}
                    type="button" style={{ margin: 1 }} >{otdelName}</button>
                 {
                    subOtdel &&
                    <ul>
-                        {subOtdel.map((child, n) => <>{this.funOtdels(child, n)}</>)}
+                        {subOtdel.map((child, n) => this.funOtdels(child, n))}
                    </ul>
                 }
             </li>
-        //</div>
         );
     }
     //-----------------------------------------------------------------------------------------------

@@ -7,7 +7,6 @@ export class Layout extends Component {
   static displayName = Layout.name;
 
   render () {
-      //console.log("параметр Layout " + this.props.updateData);
 
       return (
         <div>
