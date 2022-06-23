@@ -4,7 +4,7 @@ import { Container } from 'reactstrap';
 import { Otdel } from './Otdel'
 import { Alpha } from './Alpha'
 import { Card } from './Card'
-
+import { ToTop } from './ToTop'
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -21,7 +21,7 @@ export class Home extends Component {
 
         this.state = {
             loading: true,
-            keyCards: 1
+            keyCards: 1,
         };
 
         this.listPerson = [];
@@ -138,6 +138,7 @@ export class Home extends Component {
                         ? <img src="loading_spinner.gif" />
                         : <Card listPerson={this.listPerson} /> }
                 </div>
+                <ToTop scrollWin={this.myRef} />
           </div>
 
         );

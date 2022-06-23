@@ -12,7 +12,7 @@ export class Layout extends Component {
         <div>
              <NavMenu updateData={this.props.updateData } />
              {/*<NavMenu />*/}
-            {this.props.children}
+              {this.props.children}
       </div>
     );
   }

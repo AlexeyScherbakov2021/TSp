@@ -36,11 +36,12 @@ namespace TSp.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 listPersonal = personRepo.Personal
-                    .Where(it => it.PersonalLastName.Contains(search)
+                    .Where(it => it.PersonalDisabled != true 
+                             && (it.PersonalLastName.Contains(search)
                              || it.PersonalName.Contains(search)
                              || it.PersonalMidName.Contains(search)
                              || it.PersonalTel.Contains(search)
-                             || it.PersonalMobil.Contains(search)
+                             || it.PersonalMobil.Contains(search))
                      )
                     .Include(it => it.PersonalProf)
                     .Include(it => it.PersonalOtdel)
