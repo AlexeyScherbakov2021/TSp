@@ -27,6 +27,7 @@ namespace TSp.Controllers
         {
 
             var s = repo.Personal
+                .Where(it => it.PersonalDisabled != true)
                 .Select(it => it.PersonalLastName.Substring(0, 1).ToUpper())
                 .Distinct()
                 .OrderBy(a => a);

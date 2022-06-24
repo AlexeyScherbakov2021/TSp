@@ -14,9 +14,8 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            searchText: ""
+            searchText: null
         };
-
 
         this.updateData = this.updateData.bind(this);
     }

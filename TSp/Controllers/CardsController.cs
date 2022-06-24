@@ -30,7 +30,7 @@ namespace TSp.Controllers
         {
             List<Personal> listPersonal;
 
-            int PageSize = page * CardsPerPage;
+            //int PageSize = page * CardsPerPage;
 
 
             if (!string.IsNullOrEmpty(search))
@@ -48,8 +48,8 @@ namespace TSp.Controllers
                     .OrderBy(it => it.PersonalLastName)
                     .ThenBy(it => it.PersonalName)
                     .ThenBy(it => it.PersonalMidName)
-                    .Skip((page - 1) * PageSize)
-                    .Take(PageSize)
+                    .Skip((page - 1) * CardsPerPage)
+                    .Take(CardsPerPage)
                     .ToList();
 
             }
@@ -66,8 +66,8 @@ namespace TSp.Controllers
                         .OrderBy(it => it.PersonalLastName)
                         .ThenBy(it => it.PersonalName)
                         .ThenBy(it => it.PersonalMidName)
-                        .Skip((page - 1) * PageSize)
-                        .Take(PageSize)
+                        .Skip((page - 1) * CardsPerPage)
+                        .Take(CardsPerPage)
                         .ToList();
                 }
                 else
@@ -79,8 +79,8 @@ namespace TSp.Controllers
                             .OrderBy(it => it.PersonalLastName)
                             .ThenBy(it => it.PersonalName)
                             .ThenBy(it => it.PersonalMidName)
-                            .Skip((page - 1) * PageSize)
-                            .Take(PageSize)
+                            .Skip((page - 1) * CardsPerPage)
+                            .Take(CardsPerPage)
                             .ToList();
                 }
             else
@@ -103,8 +103,8 @@ namespace TSp.Controllers
                         .OrderBy(it => it.PersonalLastName)
                         .ThenBy(it => it.PersonalName)
                         .ThenBy(it => it.PersonalMidName)
-                        .Skip((page - 1) * PageSize)
-                        .Take(PageSize)
+                        .Skip((page - 1) * CardsPerPage)
+                        .Take(CardsPerPage)
                         .ToList();
                 }
                 else
@@ -117,8 +117,8 @@ namespace TSp.Controllers
                         .OrderBy(it => it.PersonalLastName)
                         .ThenBy(it => it.PersonalName)
                         .ThenBy(it => it.PersonalMidName)
-                        .Skip((page - 1) * PageSize)
-                        .Take(PageSize)
+                        .Skip((page - 1) * CardsPerPage)
+                        .Take(CardsPerPage)
                         .ToList();
                 }
             }
