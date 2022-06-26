@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-
+import React, { Component, useContext } from 'react';
+import { myContext } from '../App';
 
 export class Card extends Component {
     static displayName = Card.name;
@@ -14,16 +14,14 @@ export class Card extends Component {
         this.LoadedAll = false;
         this.endPage = false;
 
-        this.curOtdel = null;
+        this.curOtdel = -1;
         this.curAlpa = null;
         this.curSearch = null;
-
 
         this.renderCard = this.renderCard.bind(this);
         this.LoadCardData = this.LoadCardData.bind(this);
         this.LoadCardDataPart = this.LoadCardDataPart.bind(this);
         this.onScrollList = this.onScrollList.bind(this);
-        this.newPage = this.newPage.bind(this);
 
     }
 
@@ -32,7 +30,7 @@ export class Card extends Component {
         this.myRef = React.createRef();
         window.addEventListener('scroll', this.onScrollList)
         window.addEventListener('resize', this.onScrollList)
-        this.LoadCardData(this.curOtdel, this.curAlpha, this.curSearch, this.currentPage);
+        this.LoadCardData(this.props.curOtdel, this.props.curAlpha, this.props.curSearch, this.currentPage);
     }
 
     //-----------------------------------------------------------------------------------
@@ -47,37 +45,6 @@ export class Card extends Component {
     }
 
     //-----------------------------------------------------------------------------------
-    shouldComponentUpdate(nextProps) {
-
-        if (this.curSearch != nextProps.curSearch) {
-            this.curSearch = nextProps.curSearch;
-            this.newPage(nextProps);
-            console.log("shouldComponentUpdate curSearch");
-        } else {
-            if (this.curOtdel != nextProps.curOtdel || this.curAlpha != nextProps.curAlpha) {
-
-                console.log("shouldComponentUpdate change");
-                this.newPage(nextProps);
-            }
-        }
-        //console.log("shouldComponentUpdate page = " + this.currentPage);
-
-        return true;
-    }
-
-    //-----------------------------------------------------------------------------------
-    newPage(nextProps) {
-        this.currentPage = 1;
-        this.LoadedAll = false;
-        this.state.loading = true;
-
-        this.curOtdel = nextProps.curOtdel;
-        this.curAlpha = nextProps.curAlpha;
-        this.curSearch = null;
-        this.listPerson = [];
-    }
-
-    //-----------------------------------------------------------------------------------
     onScrollList(e) {
         const height = document.body.clientHeight;
         const screenHeight = window.innerHeight;
@@ -89,9 +56,7 @@ export class Card extends Component {
         if (position >= threshold && !this.LoadedAll && !this.endPage) {
             this.endPage = true;
             this.currentPage++;
-            //console.log("onScrollList page = " + this.currentPage);
-            //this.setState({loading: true});
-            this.LoadCardDataPart(this.curOtdel, this.curAlpha, this.curSearch, this.currentPage);
+            this.LoadCardDataPart(this.props.curOtdel, this.props.curAlpha, this.props.curSearch, this.currentPage);
         }
 
     }
@@ -102,16 +67,15 @@ export class Card extends Component {
     render() {
 
         if (this.state.loading) {
-            console.log("render=");
             this.currentPage = 1;
-            this.LoadCardData(this.curOtdel, this.curAlpha, this.curSearch, this.currentPage);
+            this.LoadedAll = false;
+            this.LoadCardData(this.props.curOtdel, this.props.curAlpha, this.props.curSearch, this.currentPage);
             return (
                 //<img src="loading_spinner.gif" />
                 <p><em>Загрузка...</em></p>
             );
         }
         else {
-            //console.log("search=" + this.curSearch);
             return this.listPerson.map((item) => this.renderCard(item));
         }
 
@@ -239,22 +203,6 @@ export class Card extends Component {
         const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page);
         const data = await response.json();
 
-        //this.listPerson = data;
-
-        //if (data.length == 0 && page > 1) {
-        //    this.LoadedAll = true;
-        //    this.state.loading = false;
-        //    return;
-//    } else {
-//    if (page > 1) {
-//        for (let d of data)
-//            this.listPerson.push(d);
-//    } else {
-//        this.listPerson = data;
-//    }
-//    this.setState({ loading: false });
-//}
-
         this.listPerson = data;
         this.setState({ loading: false });
         this.endPage = false;
@@ -276,19 +224,15 @@ export class Card extends Component {
         if (page == null)
             page = 1;
 
-
-        console.log("LoadCardDataPart");
         const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page);
         const data = await response.json();
 
         if (data.length == 0) {
-            console.log("LoadCardDataPart null");
             this.LoadedAll = true;
-            this.state.loading = false;
+            this.state.loading = true;
             return;
 
         } else {
-            console.log("LoadCardDataPart add");
             for (let d of data)
                 this.listPerson.push(d);
             this.setState({ loading: false });

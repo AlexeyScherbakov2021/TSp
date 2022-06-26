@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
-//import React, { useState, useEffect } from "react";
 import { Otdel } from './Otdel'
 import { Alpha } from './Alpha'
 import { Card } from './Card'
@@ -19,6 +18,9 @@ export class Home extends Component {
     constructor(props) {
         super(props);
 
+        this.state = { loading: true };
+
+
         this.clickOtdel = this.clickOtdel.bind(this);
         this.clickAlpha = this.clickAlpha.bind(this);
     }
@@ -29,27 +31,41 @@ export class Home extends Component {
         this.myRef = React.createRef();
     }
 
+
+    //-----------------------------------------------------------------------------------
+    componentDidUpdate() {
+        this.curSearch = null;
+        this.typeUpdate = null;
+    }
+
+
     //-----------------------------------------------------------------------------------
     clickOtdel(e) {
         this.typeUpdate = "otdel";
         this.curOtdel = e.target.id;
         this.curAlpha = null;
+        this.setState({ loading: true });
     }
 
     //-----------------------------------------------------------------------------------
     clickAlpha(e) {
         this.typeUpdate = "alpha";
         this.curAlpha = e.target.id;
+        this.setState({ loading: true });
     }
+
+
 
 
     //-----------------------------------------------------------------------------------
     render() {
 
         if (this.typeUpdate != null) {
-            curSearch = null;
-        } esle {
-            curSearch = this.props.searchText;
+            this.curSearch = null;
+        } else {
+            this.curSearch = this.props.searchText;
+            this.curAlpha = null;
+            this.curOtdel = -1;
         }
 
 
@@ -59,7 +75,7 @@ export class Home extends Component {
                 <Otdel callBack={this.clickOtdel} currentOtdel={this.curOtdel} />
                 <div className="col-12 offset-0 offset-md-3 col-md-9 offset-lg-4 col-lg-8">
                     <Alpha callBack={this.clickAlpha} currentAlpha={this.curAlpha} />
-                    <Card curAlpha={this.curAlpha} curOtdel={this.curOtdel} curSearch={this.props.searchText} /> 
+                    <Card curAlpha={this.curAlpha} curOtdel={this.curOtdel} curSearch={this.curSearch} /> 
                 </div>
                 <ToTop scrollWin={this.myRef} />
           </div>
