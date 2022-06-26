@@ -92,11 +92,14 @@ export class Card extends Component {
         };
 
         var cardStyle = {
-            background: "#effeff",
-            borderRadius: "11px",
-            boxShadow: "0px 0px 8px 1px var(--bs-secondary),inset 0px 0px 10px 0px rgb(123,186,249)",
+            //background: "#effeff",
+            borderRadius: "6px",
+            boxShadow: "0px 0px 3px 1px var(--bs-secondary),inset 0px 0px 10px 0px rgb(123,186,249)",
             marginBottom: "13px",
-            border: "2px solid rgb(82,168,255)",
+            //border: "2px solid rgb(82,168,255)",
+            border: "1px solid var(--bs-gray-600)",
+            background: "linear-gradient(-40deg, #7d9eab, #e2f6ff), rgb(202,223,255)", 
+
             marginRight: "8px"
         };
 
@@ -175,7 +178,7 @@ export class Card extends Component {
                                 <svg className="bi bi-envelope-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style={svgStyle}>
                                     <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"></path>
                                 </svg>
-                                <h6 style={headerWorkPhoneStyle}>электронная почта</h6><a href={"mailto:" + item.personalEmail}>{item.personalEmail}</a>
+                                <h6 style={headerWorkPhoneStyle}>электронная почта</h6><a className="fw-bold" href={"mailto:" + item.personalEmail}>{item.personalEmail}</a>
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
+import { EditData } from './components/EditData';
 
 //import './custom.css'
 
@@ -44,6 +45,7 @@ export default class App extends Component {
                 <Route exact path='/' render={(props) => <Home searchText={this.state.searchText} {...props} />} />
                 <Route path='/counter' component={Counter} />
                 <Route path='/fetch-data' component={FetchData} />
+                <Route path='/adm' render={(props) => <EditData searchText={this.state.searchText} {...props} />} />
             </Layout>
     );
   }
