@@ -56,7 +56,7 @@ export class NavMenu extends Component {
                 <Collapse className="navbar-collapse" isOpen={!this.state.collapsed} navbar>
                     <ul className="navbar-nav ms-auto">
                         <NavItem>
-                          <NavLink tag={Link} className="active" to="/counter">Counter</NavLink>
+                          <NavLink tag={Link} className="active" to="/adm">Counter</NavLink>
                         </NavItem>
                         <NavItem>
                           <NavLink tag={Link} to="/fetch-data">Fetch data</NavLink>

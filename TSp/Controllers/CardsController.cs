@@ -16,7 +16,7 @@ namespace TSp.Controllers
         private IPersonRepository personRepo;
         private IOtdelRepository otdelRepo;
 
-        private static int CardsPerPage = 5;
+        //private static int CardsPerPage = 5;
 
         public CardsController(IPersonRepository repo, IOtdelRepository repoOtdel)
         {
@@ -26,7 +26,7 @@ namespace TSp.Controllers
 
 
         [HttpGet]
-        public IEnumerable<Card> Get(int otdel, string alpha, string search, int page)
+        public IEnumerable<Card> Get(int otdel, string alpha, string search, int page, int CardsPerPage = 5)
         {
             List<Personal> listPersonal;
 

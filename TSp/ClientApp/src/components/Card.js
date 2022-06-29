@@ -13,6 +13,7 @@ export class Card extends Component {
         this.currentPage = 1;
         this.LoadedAll = false;
         this.endPage = false;
+        this.CardsPerPage = 6;
 
         this.curOtdel = -1;
         this.curAlpa = null;
@@ -78,8 +79,6 @@ export class Card extends Component {
         else {
             return this.listPerson.map((item) => this.renderCard(item));
         }
-
-
     }
 
 
@@ -98,7 +97,7 @@ export class Card extends Component {
             marginBottom: "13px",
             //border: "2px solid rgb(82,168,255)",
             border: "1px solid var(--bs-gray-600)",
-            background: "linear-gradient(-40deg, #7d9eab, #e2f6ff), rgb(202,223,255)", 
+            background: "linear-gradient(-50deg, #adcedb, #f8ffff), rgb(232,253,255)", 
 
             marginRight: "8px"
         };
@@ -203,7 +202,7 @@ export class Card extends Component {
         if (page == null)
             page = 1;
 
-        const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page);
+        const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page + '&CardsPerPage=' + this.CardsPerPage);
         const data = await response.json();
 
         this.listPerson = data;
@@ -227,7 +226,7 @@ export class Card extends Component {
         if (page == null)
             page = 1;
 
-        const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page);
+        const response = await fetch('cards?otdel=' + selOtdel + '&alpha=' + selAlpha + '&search=' + search + '&page=' + page + '&CardsPerPage=' + this.CardsPerPage);
         const data = await response.json();
 
         if (data.length == 0) {
