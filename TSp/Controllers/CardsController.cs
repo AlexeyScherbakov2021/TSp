@@ -25,6 +25,58 @@ namespace TSp.Controllers
         }
 
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult Post(int value)
+        {
+            return Ok();
+        }
+
+
+        [HttpGet]
+        [Route("Index")]
+        public IEnumerable<Card> Index(string search)
+        {
+            List<Personal> listPersonal;
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                listPersonal = personRepo.Personal
+                    .Where(it => (it.PersonalLastName.Contains(search)
+                             || it.PersonalName.Contains(search)
+                             || it.PersonalMidName.Contains(search)
+                             || it.PersonalTel.Contains(search)
+                             || it.PersonalMobil.Contains(search))
+                     )
+                    .Include(it => it.PersonalProf)
+                    .Include(it => it.PersonalOtdel)
+                    .OrderBy(it => it.PersonalLastName)
+                    .ThenBy(it => it.PersonalName)
+                    .ThenBy(it => it.PersonalMidName)
+                    .ToList();
+
+            }
+            else 
+            { 
+                listPersonal = personRepo.Personal
+                    .Include(it => it.PersonalProf)
+                    .Include(it => it.PersonalOtdel)
+                    .OrderBy(it => it.PersonalLastName)
+                    .ThenBy(it => it.PersonalName)
+                    .ThenBy(it => it.PersonalMidName)
+                    .ToList();
+            }
+
+            return BuildCards(listPersonal);
+
+        }
+
+
         [HttpGet]
         public IEnumerable<Card> Get(int otdel, string alpha, string search, int page, int CardsPerPage = 5)
         {
@@ -122,8 +174,6 @@ namespace TSp.Controllers
                         .ToList();
                 }
             }
-
-
             return BuildCards(listPersonal);
         }
 

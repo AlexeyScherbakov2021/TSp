@@ -14,6 +14,7 @@ export class EditData extends Component {
 
         this.renderCard = this.renderCard.bind(this);
         this.LoadCardData = this.LoadCardData.bind(this);
+        this.DeletePerson = this.DeletePerson.bind(this);
 
     }
 
@@ -32,7 +33,7 @@ export class EditData extends Component {
     //-----------------------------------------------------------------------------------
     render() {
 
-        console.log("searchText = " + this.props.searchText);
+        //console.log("searchText = " + this.props.searchText);
 
         if (this.state.loading) {
             this.LoadCardData(this.props.searchText);
@@ -46,7 +47,7 @@ export class EditData extends Component {
 
         return (
             <div style={{ margin: "11px" }}>
-                <button className="btn btn-primary" style={{ marginLeft: "11px" }} type="button">Создать</button>
+                <button className="btn btn-primary" style={{ marginLeft: "11px", marginBottom: "5px" }} type="button">Создать</button>
                 {this.listPerson.map((item) => this.renderCard(item))}
             </div>
         );
@@ -83,20 +84,23 @@ export class EditData extends Component {
                                     <div className="col col-8 px-2">
                                         <h5 className="d-flex justify-content-between align-items-center" style={{ marginBottom: "4px" }}>
                                         {item.personalLastName + ' ' + item.personalName + ' ' + item.personalMidName}
+                                        {(item.personalDisabled == true) ?
                                             <span className="badge rounded-pill bg-danger" style={{ marginRight: "25px", marginTop: "5px" }} >
                                                 отключен
                                             </span>
+                                            : <p></p>
+                                        }
                                         </h5>
                                         <h6 className="fw-normal" style={{ marginBottom: "4px" }} >
                                         <span>{item.profession}</span>
                                             :
                                         <span>{item.routeOtdels}</span>
                                         </h6>
-                                    <h6 className="text-muted mb-2">раб.тел: <span className="fw-bold">{item.personalTel}</span>       моб.тел: <span className="fw-bold">{item.personalMobil}</span>     эл.почта: <span className="fw-bold">{item.personalEmail}</span></h6>
+                                    <h6 className="text-muted mb-2">раб.тел: <span className="fw-bold">{item.personalTel}</span>    моб.тел: <span className="fw-bold">{item.personalMobil}</span>    эл.почта: <span className="fw-bold">{item.personalEmail}</span></h6>
                                     </div>
                                     <div className="col d-flex flex-column justify-content-evenly col-auto">
-                                        <button className="btn btn-primary btn-sm" type="button">Редактировать</button>
-                                        <button className="btn btn-secondary btn-sm" type="button">Удалить</button></div>
+                                    <button className="btn btn-primary btn-sm" type="button">Редактировать</button>
+                                    <button className="btn btn-secondary btn-sm" onClick={() => this.DeletePerson(item.personalId)} type="button">Удалить</button></div>
                                 </div>
                             </div>
                         </li>
@@ -112,10 +116,61 @@ export class EditData extends Component {
         if (search == null)
             search = '';
 
-        const response = await fetch('cards?otdel=-1&alpha=&search=' + search + '&page=1&CardsPerPage=1000');
+
+        //var xhr = new XMLHttpRequest();
+        //xhr.open("delete", "cards/10", true);
+        //xhr.setRequestHeader("Content-Type", "application/json");
+        //xhr.onload = function () {
+        //    if (xhr.status === 200) {
+        //        this.loadData();
+        //    }
+        //}.bind(this);
+        //xhr.send();
+
+        //const data = new FormData();
+        //data.append("value", 10);
+        //var xhr = new XMLHttpRequest();
+
+        //xhr.open("post", "cards", true);
+        //xhr.onload = function () {
+        //    if (xhr.status === 200) {
+        //        this.loadData();
+        //    }
+        //}.bind(this);
+        //xhr.send(data);
+
+
+        //var xhr = new XMLHttpRequest();
+        //xhr.open("get", "cards/Index", true);
+        //xhr.setRequestHeader("Content-Type", "application/json");
+        //xhr.onload = function () {
+        //    this.listPerson = JSON.parse(xhr.responseText);
+        //    this.setState({ loading: false });
+        //}.bind(this);
+        //xhr.send();
+
+        //const response = await fetch('cards?otdel=-1&alpha=&search=' + search + '&page=1&CardsPerPage=1000');
+        const response = await fetch('cards/Index?search=' + search);
         this.listPerson = await response.json();
         this.setState({ loading: false });
 
     }
+
+    DeletePerson(id) {
+
+        console.log("DeletePerson " + id);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("delete", "cards/" + id, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload = function () {
+        //    if (xhr.status === 200) {
+        //        this.loadData();
+        //    }
+        }.bind(this);
+        xhr.send();
+
+    }
+
 
 }
