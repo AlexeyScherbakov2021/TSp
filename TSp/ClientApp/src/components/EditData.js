@@ -1,4 +1,6 @@
 ﻿import React, { Component } from 'react';
+import { EditForm } from './EditForm';
+import { Link } from 'react-router-dom';
 
 export class EditData extends Component {
     static displayName = EditData.name;
@@ -6,9 +8,11 @@ export class EditData extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { loading: true };
+        this.state = {
+            loading: true,
+            listPerson: []
+        };
 
-        this.listPerson = [];
 
         this.curSearch = null;
 
@@ -47,14 +51,14 @@ export class EditData extends Component {
 
         return (
             <div style={{ margin: "11px" }}>
-                <button className="btn btn-primary" style={{ marginLeft: "11px", marginBottom: "5px" }} type="button">Создать</button>
-                {this.listPerson.map((item) => this.renderCard(item))}
+                <Link className="btn btn-primary" to='/editForm' style={{ marginLeft: "11px", marginBottom: "5px" }} type="button">Создать</Link>
+                {this.state.listPerson.map((item, i) => this.renderCard(item, i))}
             </div>
         );
     }
 
     //-----------------------------------------------------------------------------------
-    renderCard(item) {
+    renderCard(item, index) {
         var liStyle = {
             background: "rgba(255, 255, 255, 0)",
             paddingTop: "4px",
@@ -100,7 +104,7 @@ export class EditData extends Component {
                                     </div>
                                     <div className="col d-flex flex-column justify-content-evenly col-auto">
                                     <button className="btn btn-primary btn-sm" type="button">Редактировать</button>
-                                    <button className="btn btn-secondary btn-sm" onClick={() => this.DeletePerson(item.personalId)} type="button">Удалить</button></div>
+                                    <button className="btn btn-secondary btn-sm" onClick={() => this.DeletePerson(item, index)} type="button">Удалить</button></div>
                                 </div>
                             </div>
                         </li>
@@ -151,25 +155,31 @@ export class EditData extends Component {
 
         //const response = await fetch('cards?otdel=-1&alpha=&search=' + search + '&page=1&CardsPerPage=1000');
         const response = await fetch('cards/Index?search=' + search);
-        this.listPerson = await response.json();
+        this.state.listPerson = await response.json();
         this.setState({ loading: false });
 
     }
 
-    DeletePerson(id) {
+    DeletePerson(person, index) {
 
-        console.log("DeletePerson " + id);
+        console.log("DeletePerson " + person.personalId);
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("delete", "cards/" + id, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = function () {
-        //    if (xhr.status === 200) {
-        //        this.loadData();
-        //    }
-        }.bind(this);
-        xhr.send();
+        var result = window.confirm('Удалить "' + person.personalLastName + ' ' + person.personalName + ' ' + person.personalMidName + '"');
 
+        if (result) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("delete", "cards/" + person.personalId, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = function () {
+                console.log("status = " + xhr.status);
+                if (xhr.status === 200) {
+                    const data = { ...this.state.listPerson };
+                    delete data[index];
+                    this.setState({ listPerson: data });
+                }
+            }.bind(this);
+            xhr.send();
+        }
     }
 
 

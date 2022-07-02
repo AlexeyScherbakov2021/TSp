@@ -9,6 +9,14 @@ using TSp.Repository;
 
 namespace TSp.Controllers
 {
+    public class TodoItem
+    {
+        public long Id { get; set; }
+        public string? Name { get; set; }
+        public bool IsComplete { get; set; }
+    }
+
+
     [ApiController]
     [Route("[controller]")]
     public class CardsController : ControllerBase
@@ -26,14 +34,26 @@ namespace TSp.Controllers
 
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
+            if (personRepo.DeletePerson(id))
+                return Ok();
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        public IActionResult Post(Personal person)
+        {
+            //personRepo.EditUser(person);
             return Ok();
         }
 
         [HttpPost]
-        public IActionResult Post(int value)
+        [Route("Create")]
+        public IActionResult CreatePerson(Personal person)
         {
+            //personRepo.CreatePerson(person);
             return Ok();
         }
 

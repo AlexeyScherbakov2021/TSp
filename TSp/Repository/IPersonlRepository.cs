@@ -10,7 +10,7 @@ namespace TSp.Repository
     {
         IQueryable<Personal> Personal { get; }
         void CreatePerson(Personal user);
-        void DeletePerson(int id);
+        bool DeletePerson(int id);
         void EditUser(Personal user);
         void SavePhoto(Personal user);
     }

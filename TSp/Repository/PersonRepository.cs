@@ -20,14 +20,17 @@ namespace TSp.Repository
             context.SaveChanges();
         }
 
-        public void DeletePerson(int id)
+        public bool DeletePerson(int id)
         {
             Personal user = context.Personal.Where(u => u.PersonalId == id).FirstOrDefault();
             if (user != null)
             {
                 context.Personal.Remove(user);
                 context.SaveChanges();
+                return true;
             }
+
+            return false;
         }
 
         public void EditUser(Personal user)
