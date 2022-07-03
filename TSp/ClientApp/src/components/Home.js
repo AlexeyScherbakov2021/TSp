@@ -74,7 +74,7 @@ export class Home extends Component {
             <div className="container-fluid d-flex" ref={this.myRef} >
                 <Otdel callBack={this.clickOtdel} currentOtdel={this.curOtdel} />
                 <div className="col-12 offset-0 offset-md-3 col-md-9 offset-lg-4 col-lg-8">
-                    <Alpha callBack={this.clickAlpha} currentAlpha={this.curAlpha} />
+                    <Alpha callBack={this.clickAlpha} currentAlpha={this.curAlpha} curOtdel={this.curOtdel} />
                     <Card curAlpha={this.curAlpha} curOtdel={this.curOtdel} curSearch={this.curSearch} /> 
                 </div>
                 <ToTop scrollWin={this.myRef} />

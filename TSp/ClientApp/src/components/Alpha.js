@@ -1,9 +1,6 @@
 ﻿import React, { Component } from 'react';
 
 
-//var Alphabet = ["А", "Б", "В", "Г", "Д", "Е", "Ж", "З", "И", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ", "Э", "Ю", "Я"];
-
-
 export class Alpha extends Component {
     static displayName = Alpha.name;
 
@@ -20,7 +17,12 @@ export class Alpha extends Component {
     Alphabet = [];
 
     componentDidMount() {
-        this.LoadAlpha();
+        //this.LoadAlpha();
+    }
+
+    //-----------------------------------------------------------------------------------
+    componentDidUpdate() {
+        this.state.loading = true;
     }
 
 
@@ -44,7 +46,12 @@ export class Alpha extends Component {
             marginLeft: "1px"
         };
 
-            
+        if (this.state.loading) {
+            this.LoadAlpha();
+        }
+
+        //console.log("otdel = " + this.props.curOtdel);
+
         return this.state.loading
             ? <p><em>Loading alpha...</em></p>
             : (
@@ -62,7 +69,7 @@ export class Alpha extends Component {
     }
 
     async LoadAlpha() {
-        const response = await fetch('alpha');
+        const response = await fetch('alpha?otdel=' + this.props.curOtdel);
         const data = await response.json();
         this.Alphabet = data;
         this.setState({ loading: false });

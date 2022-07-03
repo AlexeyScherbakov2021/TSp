@@ -1,13 +1,22 @@
 ﻿import React, { Component } from 'react';
+import { DropzoneComponent } from './DropFile';
 
 
 export class EditForm extends Component {
     static displayName = EditForm.name;
 
+
     constructor(props) {
         super(props);
 
+        this.state = {
+            fileName: null,
+            preview: null
+        };
+
+
         this.savePerson = this.savePerson.bind(this);
+        this.BrowsePhoto = this.BrowsePhoto.bind(this);
     }
 
     render() {
@@ -56,12 +65,16 @@ export class EditForm extends Component {
                 </div>
                 <div className="col">
                     <div className="justify-content-center">
-                        <img className="img-thumbnail" src="IMG_20131014_215721.jpg" style={{ width: "232px"} } />
+                        <DropzoneComponent fileName={this.state.fileName } urlFile={ this.state.preview }/>
+                        {/*<img className="img-thumbnail" src="IMG_20131014_215721.jpg" style={{ width: "232px"} } />*/}
+                        <input type="file" accept="image/" required onChange={this.BrowsePhoto } />
+
                     </div>
                     <div className="justify-content-evenly">
-                        <button className="btn btn-primary" type="button" style={{ marginRight: "60px"} }>Обзор...</button>
+                        {/*<button className="btn btn-primary" onClick={(e) => this.BrowsePhoto(e)} type="button" style={{ marginRight: "60px" }}>Обзор...</button>*/}
                         <button className="btn btn-secondary" type="button">Удалить</button>
                     </div>
+
                 </div>
             </div>
 
@@ -72,7 +85,7 @@ export class EditForm extends Component {
 
         event.preventDefault();
 
-        //console.log(this.refs.isDiasabled.checked);
+        //console.log(this.refs.photoName.value);
 
         const item = {
             personalName: this.refs.name.value,
@@ -120,6 +133,25 @@ export class EditForm extends Component {
 
         //history.push(`/adm`)
         //this.context.router.push('/adm');
+    }
+
+    BrowsePhoto(event) {
+
+        event.preventDefault();
+
+        let files = [...event.target.files];
+        //let preview;
+
+        if (files[0]) {
+            this.setState(
+                {
+                    fileName: files[0].name,
+                    preview: URL.createObjectURL(files[0])
+                });
+
+            //console.log("выбран файл " + this.preview);
+        }
+
     }
 
 }

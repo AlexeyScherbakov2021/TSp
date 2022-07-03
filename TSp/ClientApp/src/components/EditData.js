@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import { EditForm } from './EditForm';
 import { Link } from 'react-router-dom';
 
 export class EditData extends Component {
