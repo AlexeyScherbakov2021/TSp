@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -43,7 +44,7 @@ namespace TSp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Personal person)
+        public IActionResult Post(IFormFile uploadedFile, int id)
         {
             //personRepo.EditUser(person);
             return Ok();

@@ -28,34 +28,45 @@ export class DropzoneComponent extends Component {
         this.setState({ drag : false});
     }
 
-    dropHandler(e) {
+    async dropHandler(e) {
         e.preventDefault();
 
-        let files = [...e.dataTransfer.files];
+        this.files = [...e.dataTransfer.files];
 
-        //files.map(file => Object.assign(file, {
+        //this.files.map(file => Object.assign(file, {
         //    preview: URL.createObjectURL(file)
         //}));
 
-        this.fileName = files[0].name;
-        this.urlFile = URL.createObjectURL(files[0]);
+        //this.fileName = this.files[0].name;
+        this.urlFile = URL.createObjectURL(this.files[0]);
 
         this.drop = true;
 
-        //console.log(this.files[0]);
+        console.log("Файл: " + this.files[0].name);
 
-        //const data = new FormData();
-        //data.append("file", this.files[0]);
+        //const formData = new FormData();
+        //formData.append("uploadedFile", this.files[0]);
+        //formData.append("id", 2);
 
-        //var xhr = new XMLHttpRequest();
-        //xhr.open("post", "cards", true);
-        //xhr.setRequestHeader("Content-Type", "application/json");
-        //xhr.onload = function () {
-        //    if (xhr.status === 200) {
+        //const res = await fetch("cards", {
+        //    method: "POST",
+        //    body: formData,
+        //}).then((res) => res.json());
+
+
+
+        const data = new FormData();
+        data.append("uploadedFile", this.files[0]);
+        data.append("id", 2);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "cards", true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
         //        //this.loadData();
-        //    }
-        //}.bind(this);
-        //xhr.send(data);
+            }
+        }.bind(this);
+        xhr.send(data);
 
         this.setState({ drag: false });
     }
