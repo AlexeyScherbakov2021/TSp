@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using TSp.Models;
 using TSp.Repository;
 
@@ -44,8 +46,36 @@ namespace TSp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(IFormFile uploadedFile, int id)
+        public IActionResult Post(IFormCollection uploadedFile )
         {
+            IFormFile file = uploadedFile.Files[0];
+            string id = uploadedFile["id"];
+
+            if (uploadedFile != null)
+            {
+                string path = "ClientApp/public/photo/" + file.FileName;
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                //user = repository.Personal.Where(p => p.PersonalId == id).FirstOrDefault();
+                //if (user == null)
+                //{
+                //    user = new Personal();
+                //    repository.CreatePerson(user);
+                //}
+
+                //user.PersonalPhoto = uploadedFile.FileName;
+                //repository.SavePhoto(user);
+
+                //return RedirectToAction("Edit/" + user.PersonalId.ToString());
+
+                return Ok();
+            }
+
+
+
             //personRepo.EditUser(person);
             return Ok();
         }

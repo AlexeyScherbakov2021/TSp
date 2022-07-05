@@ -14,12 +14,15 @@ export class EditForm extends Component {
             preview: null
         };
 
+        this.person = this.props.location.person;
 
         this.savePerson = this.savePerson.bind(this);
         this.BrowsePhoto = this.BrowsePhoto.bind(this);
     }
 
     render() {
+
+        console.log("person= " + this.person.personalLastName);
 
         return (
             <div className="row justify-content-center">
@@ -65,7 +68,7 @@ export class EditForm extends Component {
                 </div>
                 <div className="col">
                     <div className="justify-content-center">
-                        <DropzoneComponent fileName={this.state.fileName } urlFile={ this.state.preview }/>
+                        <DropzoneComponent fileName={this.state.fileName} urlFile={this.state.preview} idPerson={ this.props.person } />
                         {/*<img className="img-thumbnail" src="IMG_20131014_215721.jpg" style={{ width: "232px"} } />*/}
                         <input type="file" accept="image/" required onChange={this.BrowsePhoto } />
 

@@ -37,7 +37,7 @@ export class DropzoneComponent extends Component {
         //    preview: URL.createObjectURL(file)
         //}));
 
-        //this.fileName = this.files[0].name;
+        this.fileName = this.files[0].name;
         this.urlFile = URL.createObjectURL(this.files[0]);
 
         this.drop = true;
@@ -53,8 +53,6 @@ export class DropzoneComponent extends Component {
         //    body: formData,
         //}).then((res) => res.json());
 
-
-
         const data = new FormData();
         data.append("uploadedFile", this.files[0]);
         data.append("id", 2);
@@ -63,6 +61,8 @@ export class DropzoneComponent extends Component {
         xhr.open("post", "cards", true);
         xhr.onload = function () {
             if (xhr.status === 200) {
+                this.fileName = this.files[0].name;
+                //this.setState({ drag: false });
         //        //this.loadData();
             }
         }.bind(this);
@@ -125,7 +125,7 @@ export class DropzoneComponent extends Component {
                     onDragLeave={e => this.dragLeaveHandler(e)}
                     onDragOver={e => this.dragStartHandler(e)}
                        >
-                        {this.fileName === null
+                        {this.fileName == null
                             ? <div  >Перетащите файл</div>
                             : <img className="img-thumbnail" 
                                 src={this.urlFile} alt={this.fileName}

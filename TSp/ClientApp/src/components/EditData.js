@@ -50,7 +50,8 @@ export class EditData extends Component {
 
         return (
             <div style={{ margin: "11px" }}>
-                <Link className="btn btn-primary" to='/editForm' style={{ marginLeft: "11px", marginBottom: "5px" }} type="button">Создать</Link>
+                <Link className="btn btn-primary" to='/editForm' style={{ marginLeft: "11px", marginBottom: "5px" }}
+                    type="button">Создать</Link>
                 {this.state.listPerson.map((item, i) => this.renderCard(item, i))}
             </div>
         );
@@ -102,7 +103,8 @@ export class EditData extends Component {
                                     <h6 className="text-muted mb-2">раб.тел: <span className="fw-bold">{item.personalTel}</span>    моб.тел: <span className="fw-bold">{item.personalMobil}</span>    эл.почта: <span className="fw-bold">{item.personalEmail}</span></h6>
                                     </div>
                                     <div className="col d-flex flex-column justify-content-evenly col-auto">
-                                    <button className="btn btn-primary btn-sm" type="button">Редактировать</button>
+                                    {/*<button className="btn btn-primary btn-sm" type="button">Редактировать</button>*/}
+                                    <Link className="btn btn-primary" to={{ pathname: '/editForm', person: item}} type="button">Редактировать</Link>
                                     <button className="btn btn-secondary btn-sm" onClick={() => this.DeletePerson(item, index)} type="button">Удалить</button></div>
                                 </div>
                             </div>
