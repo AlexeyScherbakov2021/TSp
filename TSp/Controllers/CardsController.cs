@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -46,12 +47,18 @@ namespace TSp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(IFormCollection uploadedFile )
+        public IActionResult Post(IFormCollection formData)
         {
-            IFormFile file = uploadedFile.Files[0];
-            string id = uploadedFile["id"];
+            IFormFile file = formData.Files[0];
 
-            if (uploadedFile != null)
+            Personal person = JsonConvert.DeserializeObject<Personal>(formData["person"]);
+
+            if (person.PersonalId < 1)
+                personRepo.CreatePerson(person);
+            else
+                personRepo.EditUser(person);
+
+            if (formData != null && person.PersonalId > 0)
             {
                 string path = "ClientApp/public/photo/" + file.FileName;
                 using (var fileStream = new FileStream(path, FileMode.Create))

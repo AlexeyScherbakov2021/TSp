@@ -16,18 +16,19 @@ export class DropzoneComponent extends Component {
     }
 
 
+    //-------------------------------------------------------------------------------------------------
     dragStartHandler(e) {
         e.preventDefault();
         this.setState({ drag : true});
     }
 
+    //-------------------------------------------------------------------------------------------------
     dragLeaveHandler(e) {
-
-
         e.preventDefault();
         this.setState({ drag : false});
     }
 
+    //-------------------------------------------------------------------------------------------------
     async dropHandler(e) {
         e.preventDefault();
 
@@ -37,42 +38,35 @@ export class DropzoneComponent extends Component {
         //    preview: URL.createObjectURL(file)
         //}));
 
-        this.fileName = this.files[0].name;
-        this.urlFile = URL.createObjectURL(this.files[0]);
+        this.props.onCallBack(this.files[0]);
+        //this.drop = true;
 
-        this.drop = true;
+        //this.fileName = this.files[0].name;
+        //this.urlFile = URL.createObjectURL(this.files[0]);
 
-        console.log("Файл: " + this.files[0].name);
 
-        //const formData = new FormData();
-        //formData.append("uploadedFile", this.files[0]);
-        //formData.append("id", 2);
+        //console.log("Файл: " + this.files[0].name);
 
-        //const res = await fetch("cards", {
-        //    method: "POST",
-        //    body: formData,
-        //}).then((res) => res.json());
+        //const data = new FormData();
+        //data.append("uploadedFile", this.files[0]);
+        //data.append("id", 2);
 
-        const data = new FormData();
-        data.append("uploadedFile", this.files[0]);
-        data.append("id", 2);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("post", "cards", true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                this.fileName = this.files[0].name;
-                //this.setState({ drag: false });
-        //        //this.loadData();
-            }
-        }.bind(this);
-        xhr.send(data);
+        //var xhr = new XMLHttpRequest();
+        //xhr.open("post", "cards", true);
+        //xhr.onload = function () {
+        //    if (xhr.status === 200) {
+        //        this.fileName = this.files[0].name;
+        //        //this.setState({ drag: false });
+        ////        //this.loadData();
+        //    }
+        //}.bind(this);
+        //xhr.send(data);
 
         this.setState({ drag: false });
     }
 
 
-
+    //-------------------------------------------------------------------------------------------------
     render() {
 
         const baseStyle = {
@@ -103,12 +97,18 @@ export class DropzoneComponent extends Component {
         //    </div>
         //));
 
-        if (this.drop == false) {
+        //if (this.drop == false) {
             //console.log(this.props.urlFile);
-            this.fileName = this.props.fileName;
-            this.urlFile = this.props.urlFile;
+            //this.fileName = this.props.fileName;
+            //this.urlFile = this.props.urlFile;
+
+        //}
+        //this.drop = false;
+        if (this.props.filePhoto != null) {
+            this.urlFile = URL.createObjectURL(this.props.filePhoto);
+            //console.log("render " + this.props.filePhoto.name);
         }
-        this.drop = false;
+
 
         return (
             <div style={baseStyle} className="align-items-center justify-content-center">
@@ -125,11 +125,9 @@ export class DropzoneComponent extends Component {
                     onDragLeave={e => this.dragLeaveHandler(e)}
                     onDragOver={e => this.dragStartHandler(e)}
                        >
-                        {this.fileName == null
-                            ? <div  >Перетащите файл</div>
-                            : <img className="img-thumbnail" 
-                                src={this.urlFile} alt={this.fileName}
-                            />
+                        {this.urlFile == null
+                            ? <div>Перетащите файл</div>
+                            : <img className="img-thumbnail" src={this.urlFile} />
                         }
                     </div>
                 }
