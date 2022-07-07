@@ -161,6 +161,7 @@ export class EditData extends Component {
 
     }
 
+    //-----------------------------------------------------------------------------------
     DeletePerson(person, index) {
 
         console.log("DeletePerson " + person.personalId);

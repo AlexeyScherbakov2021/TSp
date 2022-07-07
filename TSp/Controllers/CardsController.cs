@@ -36,22 +36,44 @@ namespace TSp.Controllers
             otdelRepo = repoOtdel;
         }
 
-
+        //---------------------------------------------------------------------------
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            Personal pers = personRepo.Personal.FirstOrDefault(it => it.PersonalId == id);
+            string Photo = "ClientApp/public/photo/" + pers.PersonalPhoto;
+
+            int listPhotos = personRepo.Personal.Count(it => it.PersonalPhoto == pers.PersonalPhoto);
+
             if (personRepo.DeletePerson(id))
+            {
+                if (listPhotos < 2)
+                {
+                    try
+                    {
+                        System.IO.File.Delete(Photo);
+                    }
+                    catch { }
+                }
                 return Ok();
+            }
 
             return NotFound();
         }
 
+        //--------------------------------------------------------------------------------------------------
         [HttpPost]
         public IActionResult Post(IFormCollection formData)
         {
-            IFormFile file = formData.Files[0];
-
             Personal person = JsonConvert.DeserializeObject<Personal>(formData["person"]);
+
+            if (person.PersonalOtdelId < 1)
+                person.PersonalOtdelId = null;
+
+            if(person.PersonalProfId < 1)
+                person.PersonalProfId = null;
+
+            string oldPhoto = formData["OldPhoto"];
 
             if (person.PersonalId < 1)
                 personRepo.CreatePerson(person);
@@ -60,11 +82,29 @@ namespace TSp.Controllers
 
             if (formData != null && person.PersonalId > 0)
             {
-                string path = "ClientApp/public/photo/" + file.FileName;
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                string path = "ClientApp/public/photo/";
+
+                int listPhotos = personRepo.Personal.Count(it => it.PersonalPhoto == oldPhoto);
+
+                if (oldPhoto != person.PersonalPhoto && listPhotos < 2)
                 {
-                    file.CopyTo(fileStream);
+                    // удаляем старое фото
+                    try
+                    {
+                        System.IO.File.Delete(path + oldPhoto);
+                    }
+                    catch { }
                 }
+
+                if (formData.Files.Count > 0)
+                {
+                    IFormFile file = formData.Files[0];
+                    using (var fileStream = new FileStream(path + file.FileName, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                }
+
 
                 //user = repository.Personal.Where(p => p.PersonalId == id).FirstOrDefault();
                 //if (user == null)
@@ -270,7 +310,7 @@ namespace TSp.Controllers
                     PersonalOtdelId = p.PersonalOtdelId
                 };
 
-                card.Profession = p.PersonalProf.ProfName;
+                card.Profession = p.PersonalProf?.ProfName;
                 card.RouteOtdels = p.PersonalOtdel?.OtdelName;
 
                 Otdel parentOtdel = p.PersonalOtdel?.OtdelParent;

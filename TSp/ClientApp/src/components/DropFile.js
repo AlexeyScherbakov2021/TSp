@@ -10,6 +10,7 @@ export class DropzoneComponent extends Component {
 
         this.drop = false;
         this.state = { drag: false };
+        this.urlFile = "photo/" + this.props.fileName;
         this.dragStartHandler = this.dragStartHandler.bind(this);
         this.dragLeaveHandler = this.dragLeaveHandler.bind(this);
         this.dropHandler = this.dropHandler.bind(this);
@@ -104,9 +105,17 @@ export class DropzoneComponent extends Component {
 
         //}
         //this.drop = false;
+
+        //console.log("render1 " + this.props.filePhoto);
+
+        if (this.props.fileName == null) {
+            this.urlFile = null;
+        }
+
+
+
         if (this.props.filePhoto != null) {
             this.urlFile = URL.createObjectURL(this.props.filePhoto);
-            //console.log("render " + this.props.filePhoto.name);
         }
 
 

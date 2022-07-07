@@ -50,21 +50,22 @@ namespace TSp.Repository
                 pers.PersonalOtdel = user.PersonalOtdel;
                 pers.PersonalProfId = user.PersonalProfId;
                 pers.PersonalProf = user.PersonalProf;
-              
-                context.SaveChanges();
-            }
-        }
-
-        public void SavePhoto(Personal user)
-        {
-            Personal pers = context.Personal.Where(u => u.PersonalId == user.PersonalId).FirstOrDefault();
-
-            if (pers != null)
-            {
                 pers.PersonalPhoto = user.PersonalPhoto;
+
                 context.SaveChanges();
             }
         }
+
+        //public void SavePhoto(Personal user)
+        //{
+        //    Personal pers = context.Personal.Where(u => u.PersonalId == user.PersonalId).FirstOrDefault();
+
+        //    if (pers != null)
+        //    {
+        //        pers.PersonalPhoto = user.PersonalPhoto;
+        //        context.SaveChanges();
+        //    }
+        //}
 
     }
 }

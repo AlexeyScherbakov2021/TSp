@@ -12,6 +12,6 @@ namespace TSp.Repository
         void CreatePerson(Personal user);
         bool DeletePerson(int id);
         void EditUser(Personal user);
-        void SavePhoto(Personal user);
+        //void SavePhoto(Personal user);
     }
 }
